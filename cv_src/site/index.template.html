@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{NAME}} CV</title>
+<meta name="description" content="Curriculum vitae of {{NAME}}. {{ROLE}}.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#2c4b8e; --accent-soft:#4a68a8; --red:#9e2b22; --ink:#1c2530; --muted:#5d6b7a;
+    --sheet:#ffffff; --rule:#e2e7ee; --tag:#eef2f7;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+  body{
+    margin:0; color:var(--ink);
+    font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:15px; line-height:1.55;
+    background:radial-gradient(1200px 600px at 50% -10%, #f2f5f9 0%, #e8ecf2 55%, #e2e7ee 100%);
+    min-height:100vh;
+  }
+
+  /* top bar */
+  .bar{
+    position:sticky; top:0; z-index:20;
+    display:flex; align-items:center; justify-content:space-between; gap:1rem;
+    padding:.7rem clamp(1rem,4vw,2rem);
+    background:rgba(240,243,247,.82); backdrop-filter:saturate(150%) blur(10px);
+    border-bottom:1px solid var(--rule);
+  }
+  .bar .who{font-family:"Newsreader",Georgia,serif; font-weight:600; color:var(--accent); font-size:1.05rem;}
+  .btn{
+    display:inline-flex; align-items:center; gap:.45rem; flex:none;
+    padding:.5rem .95rem; border-radius:8px; font-weight:600; font-size:.85rem;
+    color:#fff; background:var(--accent); text-decoration:none;
+    transition:background .15s ease, transform .1s ease;
+  }
+  .btn:hover{background:var(--accent-soft);}
+  .btn:active{transform:translateY(1px);}
+  .btn:focus-visible{outline:3px solid var(--accent-soft); outline-offset:2px;}
+  .btn svg{width:15px;height:15px;}
+
+  /* sheet */
+  .sheet{
+    max-width:880px; margin:clamp(1rem,4vw,2.5rem) auto; background:var(--sheet);
+    border-radius:14px; overflow:hidden;
+    box-shadow:0 1px 2px rgba(28,37,48,.06), 0 18px 50px rgba(28,37,48,.12);
+  }
+  .sheet-accent{height:5px; background:linear-gradient(90deg,var(--accent),var(--accent-soft));}
+  .inner{padding:clamp(1.5rem,5vw,3rem);}
+
+  /* header */
+  header.cv{display:flex; align-items:center; gap:1.5rem; justify-content:space-between;}
+  header.cv .name{font-family:"Newsreader",Georgia,serif; font-weight:600; color:#1a1a1a;
+    font-size:clamp(1.8rem,5vw,2.5rem); line-height:1.05; margin:0;}
+  header.cv .role{color:var(--muted); font-size:1rem; margin:.35rem 0 0;}
+  .avatar{width:104px; height:134px; object-fit:cover; border-radius:10px; flex:none;
+    box-shadow:0 2px 10px rgba(28,37,48,.18);}
+  .contact{margin-top:.9rem; font-size:.9rem; color:var(--muted); line-height:1.9;}
+  .contact a{color:var(--red); text-decoration:none;}
+  .contact a:hover{text-decoration:underline;}
+  .contact .sep{color:var(--accent-soft); margin:0 .5rem; opacity:.6;}
+  .lede{margin:1.1rem 0 0; font-family:"Newsreader",Georgia,serif; font-style:italic;
+    font-size:1.05rem; color:#3a4653;}
+
+  /* sections */
+  section{margin-top:2rem;}
+  h2.sec{font-size:.82rem; letter-spacing:.13em; text-transform:uppercase; color:var(--accent);
+    font-weight:600; margin:0 0 .2rem; font-family:"Inter",sans-serif;}
+  .sec-rule{height:2px; background:var(--accent); opacity:.85; border-radius:2px; margin-bottom:1rem;}
+
+  .entry{display:grid; grid-template-columns:1fr 160px; column-gap:1.6rem;
+    align-items:start; margin-bottom:1.6rem;}
+  .entry.no-logo{grid-template-columns:1fr auto;}
+  .entry-body{min-width:0;}
+  .entry-titles h3{margin:0; font-size:1.06rem; color:var(--ink); font-weight:600;}
+  .entry-titles .note{color:var(--muted); font-weight:400; font-size:.85rem;}
+  .entry-titles .area{font-weight:400; color:var(--ink);}
+  .org{color:var(--accent); font-size:.96rem; margin-top:.1rem;}
+  .edunote{font-style:italic; color:var(--red); font-size:.9rem; margin-top:.15rem;}
+  .entry-aside{display:flex; flex-direction:column; align-items:center; gap:.7rem; text-align:center;}
+  .dates{color:var(--muted); font-size:.85rem; white-space:nowrap;}
+  .entry-logo{display:flex; align-items:center; justify-content:center;}
+  .entry-logo .logo{max-width:100%; max-height:82px; width:auto; height:auto; object-fit:contain;}
+  .summary{margin:.5rem 0 .4rem; color:var(--red);}
+  .entry ul{margin:.4rem 0 0; padding-left:1.15rem;}
+  .entry li{margin:.28rem 0;}
+  .entry li strong{color:var(--ink);}
+
+  /* skills */
+  .skill-row{display:grid; grid-template-columns:230px 1fr; gap:.6rem 1rem; padding:.32rem 0;
+    border-bottom:1px solid var(--rule);}
+  .skill-row:last-child{border-bottom:0;}
+  .skill-name{font-weight:600; color:var(--accent);}
+  .skill-kw{color:var(--ink);}
+
+  .langs{font-size:1rem;} .langs .muted{color:var(--muted);} .langs .sep{color:var(--accent-soft); margin:0 .5rem; opacity:.6;}
+  .pubs{color:var(--ink);} .pubs a{color:var(--red);}
+
+  footer{max-width:880px; margin:0 auto; text-align:center; padding:1.5rem 1rem 3rem; font-size:.85rem; color:var(--muted);}
+  footer a{color:var(--red); text-decoration:none;} footer a:hover{text-decoration:underline;}
+  footer .sep{margin:0 .5rem; color:var(--accent-soft); opacity:.6;}
+
+  @media (max-width:640px){
+    header.cv{flex-direction:column-reverse; align-items:flex-start; gap:1rem;}
+    .avatar{width:82px;height:106px;}
+    .entry, .entry.no-logo{grid-template-columns:1fr; row-gap:.6rem;}
+    .entry-aside{flex-direction:row; align-items:center; justify-content:flex-start; gap:1rem;}
+    .entry-logo{justify-content:flex-start;}
+    .entry-logo .logo{max-height:56px;}
+    .skill-row{grid-template-columns:1fr;}
+  }
+  @media print{.bar{display:none;} body{background:#fff;} .sheet{box-shadow:none; margin:0; max-width:none;}}
+</style>
+</head>
+<body>
+  <div class="bar">
+    <span class="who">{{NAME}}</span>
+    <a class="btn" href="./{{PDF_NAME}}" download="{{PDF_NAME}}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+      Download PDF
+    </a>
+  </div>
+
+  <main class="sheet">
+    <div class="sheet-accent"></div>
+    <div class="inner">
+      <header class="cv">
+        <div>
+          <h1 class="name">{{NAME}}</h1>
+          <p class="role">{{ROLE}}</p>
+        </div>
+        {{PHOTO}}
+      </header>
+      <div class="contact">{{CONTACT}}</div>
+      <p class="lede">{{SUMMARY}}</p>
+
+      <section>
+        <h2 class="sec">Experience</h2><div class="sec-rule"></div>
+        {{EXPERIENCE}}
+      </section>
+
+      <section>
+        <h2 class="sec">Education</h2><div class="sec-rule"></div>
+        {{EDUCATION}}
+      </section>
+
+      <section>
+        <h2 class="sec">Skills</h2><div class="sec-rule"></div>
+        {{SKILLS}}
+      </section>
+
+      <section>
+        <h2 class="sec">Languages</h2><div class="sec-rule"></div>
+        <div class="langs">{{LANGUAGES}}</div>
+      </section>
+
+      <section>
+        <h2 class="sec">Publications</h2><div class="sec-rule"></div>
+        <div class="pubs">{{PUBLICATIONS}}</div>
+      </section>
+    </div>
+  </main>
+
+  <footer>{{FOOTER}}</footer>
+</body>
+</html>

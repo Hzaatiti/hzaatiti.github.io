@@ -38,7 +38,9 @@ jobs:
 
       - name: Build PDF
         working-directory: cv_src
-        run: typst compile template.typ "site/CV_Hadi_Zaatiti.pdf" --root .
+        run: |
+          mkdir -p site
+          typst compile template.typ "site/CV_Hadi_Zaatiti.pdf" --root .
 
       - name: Assemble /cv
         run: |

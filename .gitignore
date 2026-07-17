@@ -14,7 +14,11 @@ _site/
 vendor/
 
 # CV build artifacts (regenerated from cv_src by build.py / CI)
-cv_src/site/
+# NOTE: keep cv_src/site/index.template.html tracked — build.py needs it.
+cv_src/site/index.html
+cv_src/site/images/
+cv_src/site/pdfname.txt
+cv_src/site/CV_Hadi_Zaatiti.pdf
 cv_src/resume.json
 
 # local helper / scratch files

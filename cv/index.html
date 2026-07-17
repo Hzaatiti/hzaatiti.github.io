@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hadi Zaatiti CV</title>
+<meta name="description" content="Curriculum vitae of Hadi Zaatiti. Research Scientist · Modelling &amp; Simulation of Dynamical Systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#2c4b8e; --accent-soft:#4a68a8; --red:#9e2b22; --ink:#1c2530; --muted:#5d6b7a;
+    --sheet:#ffffff; --rule:#e2e7ee; --tag:#eef2f7;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+  body{
+    margin:0; color:var(--ink);
+    font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:15px; line-height:1.55;
+    background:radial-gradient(1200px 600px at 50% -10%, #f2f5f9 0%, #e8ecf2 55%, #e2e7ee 100%);
+    min-height:100vh;
+  }
+
+  /* top bar */
+  .bar{
+    position:sticky; top:0; z-index:20;
+    display:flex; align-items:center; justify-content:space-between; gap:1rem;
+    padding:.7rem clamp(1rem,4vw,2rem);
+    background:rgba(240,243,247,.82); backdrop-filter:saturate(150%) blur(10px);
+    border-bottom:1px solid var(--rule);
+  }
+  .bar .who{font-family:"Newsreader",Georgia,serif; font-weight:600; color:var(--accent); font-size:1.05rem;}
+  .btn{
+    display:inline-flex; align-items:center; gap:.45rem; flex:none;
+    padding:.5rem .95rem; border-radius:8px; font-weight:600; font-size:.85rem;
+    color:#fff; background:var(--accent); text-decoration:none;
+    transition:background .15s ease, transform .1s ease;
+  }
+  .btn:hover{background:var(--accent-soft);}
+  .btn:active{transform:translateY(1px);}
+  .btn:focus-visible{outline:3px solid var(--accent-soft); outline-offset:2px;}
+  .btn svg{width:15px;height:15px;}
+
+  /* sheet */
+  .sheet{
+    max-width:880px; margin:clamp(1rem,4vw,2.5rem) auto; background:var(--sheet);
+    border-radius:14px; overflow:hidden;
+    box-shadow:0 1px 2px rgba(28,37,48,.06), 0 18px 50px rgba(28,37,48,.12);
+  }
+  .sheet-accent{height:5px; background:linear-gradient(90deg,var(--accent),var(--accent-soft));}
+  .inner{padding:clamp(1.5rem,5vw,3rem);}
+
+  /* header */
+  header.cv{display:flex; align-items:center; gap:1.5rem; justify-content:space-between;}
+  header.cv .name{font-family:"Newsreader",Georgia,serif; font-weight:600; color:#1a1a1a;
+    font-size:clamp(1.8rem,5vw,2.5rem); line-height:1.05; margin:0;}
+  header.cv .role{color:var(--muted); font-size:1rem; margin:.35rem 0 0;}
+  .avatar{width:104px; height:134px; object-fit:cover; border-radius:10px; flex:none;
+    box-shadow:0 2px 10px rgba(28,37,48,.18);}
+  .contact{margin-top:.9rem; font-size:.9rem; color:var(--muted); line-height:1.9;}
+  .contact a{color:var(--red); text-decoration:none;}
+  .contact a:hover{text-decoration:underline;}
+  .contact .sep{color:var(--accent-soft); margin:0 .5rem; opacity:.6;}
+  .lede{margin:1.1rem 0 0; font-family:"Newsreader",Georgia,serif; font-style:italic;
+    font-size:1.05rem; color:#3a4653;}
+
+  /* sections */
+  section{margin-top:2rem;}
+  h2.sec{font-size:.82rem; letter-spacing:.13em; text-transform:uppercase; color:var(--accent);
+    font-weight:600; margin:0 0 .2rem; font-family:"Inter",sans-serif;}
+  .sec-rule{height:2px; background:var(--accent); opacity:.85; border-radius:2px; margin-bottom:1rem;}
+
+  .entry{display:grid; grid-template-columns:1fr 160px; column-gap:1.6rem;
+    align-items:start; margin-bottom:1.6rem;}
+  .entry.no-logo{grid-template-columns:1fr auto;}
+  .entry-body{min-width:0;}
+  .entry-titles h3{margin:0; font-size:1.06rem; color:var(--ink); font-weight:600;}
+  .entry-titles .note{color:var(--muted); font-weight:400; font-size:.85rem;}
+  .entry-titles .area{font-weight:400; color:var(--ink);}
+  .org{color:var(--accent); font-size:.96rem; margin-top:.1rem;}
+  .edunote{font-style:italic; color:var(--red); font-size:.9rem; margin-top:.15rem;}
+  .entry-aside{display:flex; flex-direction:column; align-items:center; gap:.7rem; text-align:center;}
+  .dates{color:var(--muted); font-size:.85rem; white-space:nowrap;}
+  .entry-logo{display:flex; align-items:center; justify-content:center;}
+  .entry-logo .logo{max-width:100%; max-height:82px; width:auto; height:auto; object-fit:contain;}
+  .summary{margin:.5rem 0 .4rem; color:var(--red);}
+  .entry ul{margin:.4rem 0 0; padding-left:1.15rem;}
+  .entry li{margin:.28rem 0;}
+  .entry li strong{color:var(--ink);}
+
+  /* skills */
+  .skill-row{display:grid; grid-template-columns:230px 1fr; gap:.6rem 1rem; padding:.32rem 0;
+    border-bottom:1px solid var(--rule);}
+  .skill-row:last-child{border-bottom:0;}
+  .skill-name{font-weight:600; color:var(--accent);}
+  .skill-kw{color:var(--ink);}
+
+  .langs{font-size:1rem;} .langs .muted{color:var(--muted);} .langs .sep{color:var(--accent-soft); margin:0 .5rem; opacity:.6;}
+  .pubs{color:var(--ink);} .pubs a{color:var(--red);}
+
+  footer{max-width:880px; margin:0 auto; text-align:center; padding:1.5rem 1rem 3rem; font-size:.85rem; color:var(--muted);}
+  footer a{color:var(--red); text-decoration:none;} footer a:hover{text-decoration:underline;}
+  footer .sep{margin:0 .5rem; color:var(--accent-soft); opacity:.6;}
+
+  @media (max-width:640px){
+    header.cv{flex-direction:column-reverse; align-items:flex-start; gap:1rem;}
+    .avatar{width:82px;height:106px;}
+    .entry, .entry.no-logo{grid-template-columns:1fr; row-gap:.6rem;}
+    .entry-aside{flex-direction:row; align-items:center; justify-content:flex-start; gap:1rem;}
+    .entry-logo{justify-content:flex-start;}
+    .entry-logo .logo{max-height:56px;}
+    .skill-row{grid-template-columns:1fr;}
+  }
+  @media print{.bar{display:none;} body{background:#fff;} .sheet{box-shadow:none; margin:0; max-width:none;}}
+</style>
+</head>
+<body>
+  <div class="bar">
+    <span class="who">Hadi Zaatiti</span>
+    <a class="btn" href="./CV_Hadi_Zaatiti.pdf" download="CV_Hadi_Zaatiti.pdf">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+      Download PDF
+    </a>
+  </div>
+
+  <main class="sheet">
+    <div class="sheet-accent"></div>
+    <div class="inner">
+      <header class="cv">
+        <div>
+          <h1 class="name">Hadi Zaatiti</h1>
+          <p class="role">Research Scientist · Modelling &amp; Simulation of Dynamical Systems</p>
+        </div>
+        <img class="avatar" src="images/photo.jpg" alt="Hadi Zaatiti">
+      </header>
+      <div class="contact"><a href="mailto:hadizaatiti@gmail.com">hadizaatiti@gmail.com</a><span class="sep">·</span><span>+33 6 30 47 27 36 · +971 56 275 4921</span><span class="sep">·</span><a href="https://zaatiti.fr">zaatiti.fr</a><span class="sep">·</span><span>Abu Dhabi, United Arab Emirates</span><span class="sep">·</span><span>French citizen</span></div>
+      <p class="lede">Doctor of engineering with 10 years of combined industry and academic experience, specialized in the modelling and simulation of dynamical systems across the automotive, military aerospace and healthcare industries.</p>
+
+      <section>
+        <h2 class="sec">Experience</h2><div class="sec-rule"></div>
+        <article class="entry">
+        <div class="entry-body">
+          <div class="entry-titles">
+            <h3>Research Scientist <span class="note">(Full-time)</span></h3>
+            <div class="org">New York University, Abu Dhabi</div>
+          </div>
+          <p class="summary">MagnetoEncephaloGraphy (MEG) and ElectroEncephaloGraphy (EEG) Labs, part of the BioMedical Imaging Core at NYUAD.</p><ul><li><strong>Experimental design &amp; hypotheses:</strong> Collaborate on the design and implementation of MEG/EEG experimental paradigms, aligning technical infrastructure with neurobiological objectives to investigate complex cognitive and clinical phenomena.</li><li><strong>System integration &amp; maintenance:</strong> Maintain and optimize MEG, EEG, and fMRI-compatible EEG systems; proactively adapt hardware and software to evolving research requirements while ensuring peak performance through rigorous calibration and technical monitoring.</li><li><strong>Advanced analysis &amp; pipeline development:</strong> Engineer robust data-processing pipelines and apply sophisticated modeling techniques to transform raw signals into high-fidelity neural data, enabling deeper neuroscientific insight and reproducible results.</li><li><strong>Scientific impact &amp; lifecycle management:</strong> Lead research projects from conceptualization to dissemination, ensuring rigorous methodology and high-quality outputs for peer-reviewed publications and applied clinical contexts.</li></ul>
+        </div>
+        <div class="entry-aside">
+          <span class="dates">Jan 2024 to Present</span>
+          <div class="entry-logo"><img class="logo" src="images/logos/nyuad.png" alt=""></div>
+        </div>
+      </article>
+<article class="entry">
+        <div class="entry-body">
+          <div class="entry-titles">
+            <h3>System Designer, MBSE &amp; Simulation Specialist <span class="note">(Full-time)</span></h3>
+            <div class="org">Airbus Defence &amp; Space</div>
+          </div>
+          <p class="summary">Model Manager for two programs: FCAS (Future Combat Air System) and ED (EuroDrone). Also served as MBSE &amp; Simulation Tutor at Airbus Academy.</p><ul><li><strong>MBSE processes:</strong> Design technical processes for writing requirements and modeling operational, functional and technical architecture elements.</li><li><strong>Systems engineering deployment:</strong> Apply architectural frameworks such as UAF and UBM (Cameo Systems Modeler, Enterprise Architect, Doors, RPE, Jira, Confluence).</li><li><strong>Mission simulation:</strong> Define and simulate mission scenarios at different levels of abstraction (Cameo Simulation Kit, MATLAB).</li><li><strong>Automate generation &amp; verification:</strong> requirements/documentation generation and automated testing/verification of models (JavaScript, NoMagic API, Jenkins, GitHub, Bitbucket).</li><li><strong>Train and standardize:</strong> deliver MBSE and simulation training to future complex-system designers; contribute to state-of-the-art systems engineering (INCOSE, AFIS), ISO standards, and certification programs (CSEP).</li></ul>
+        </div>
+        <div class="entry-aside">
+          <span class="dates">Feb 2022 to Jan 2024</span>
+          <div class="entry-logo"><img class="logo" src="images/logos/airbus.png" alt=""></div>
+        </div>
+      </article>
+<article class="entry">
+        <div class="entry-body">
+          <div class="entry-titles">
+            <h3>System Architect for Autonomous Vehicles &amp; Data Scientist <span class="note">(Full-time)</span></h3>
+            <div class="org">Institute of Research and Technology SystemX</div>
+          </div>
+          <p class="summary">Architect for autonomous transportation systems in collaboration with RATP, Transdev, SNCF, Renault, PSA, Navya and EasyMile.</p><ul><li><strong>Autonomous shuttles:</strong> Designed, specified and modeled a complete autonomous shuttle system with project partners, ensuring correct behavior via verification and simulation techniques.</li><li><strong>Representation learning on manifolds (with Stanford and Inria):</strong> Worked on data representation on manifolds (mainly graphs) as the 3rd contributor to geomstats.ai, and on learning methods for complex system models (simple, timed and hybrid automata).</li></ul>
+        </div>
+        <div class="entry-aside">
+          <span class="dates">Nov 2018 to Jan 2022</span>
+          <div class="entry-logo"><img class="logo" src="images/logos/systemx.png" alt=""></div>
+        </div>
+      </article>
+<article class="entry">
+        <div class="entry-body">
+          <div class="entry-titles">
+            <h3>System Modeling and Simulation Teacher <span class="note">(Part-time)</span></h3>
+            <div class="org">École Centrale de Paris, CentraleSupélec</div>
+          </div>
+          <p class="summary">Taught 4th-year engineering students system modeling, requirements engineering and simulation through a practical case: capturing stakeholder needs, building an architecture, evaluating technical solutions and justifying design choices.</p>
+        </div>
+        <div class="entry-aside">
+          <span class="dates">Nov 2018 to Jan 2022</span>
+          <div class="entry-logo"><img class="logo" src="images/logos/centralesupelec.png" alt=""></div>
+        </div>
+      </article>
+<article class="entry">
+        <div class="entry-body">
+          <div class="entry-titles">
+            <h3>Research Engineer <span class="note">(Full-time)</span></h3>
+            <div class="org">Commissariat of Atomic Energy (CEA)</div>
+          </div>
+          <p class="summary">Modelling, simulation and formal verification of hybrid dynamical systems.</p><ul><li>Modeled complex systems as finite state machines coupled with differential equations (hybrid automata) and formally verified them via Satisfiability Modulo Theories (SMT and SAT).</li><li>Developed an approach that automates the abstraction of such models to verify safety properties expressed through constraints.</li><li>Implemented the approach in C++ (over 15k lines) interfaced with QepCAD and other SMT solvers, and validated it on more than 10 complex examples.</li></ul>
+        </div>
+        <div class="entry-aside">
+          <span class="dates">Nov 2015 to Nov 2018</span>
+          <div class="entry-logo"><img class="logo" src="images/logos/cea.png" alt=""></div>
+        </div>
+      </article>
+<article class="entry">
+        <div class="entry-body">
+          <div class="entry-titles">
+            <h3>Computer Science Teacher <span class="note">(Part-time)</span></h3>
+            <div class="org">Université Paris-Sud</div>
+          </div>
+          <p class="summary">During my Ph.D., taught 2nd- and 3rd-year computer science students. Courses included programming languages (C++), algorithms, software testing, networking and routing.</p>
+        </div>
+        <div class="entry-aside">
+          <span class="dates">Sep 2015 to Sep 2017</span>
+          <div class="entry-logo"><img class="logo" src="images/logos/paris-saclay.png" alt=""></div>
+        </div>
+      </article>
+<article class="entry">
+        <div class="entry-body">
+          <div class="entry-titles">
+            <h3>Research Intern <span class="note">(End-of-master internship)</span></h3>
+            <div class="org">French Commissariat of Atomic Energy (CEA)</div>
+          </div>
+          <p class="summary">Addressed the safety of a cyber-physical railway system by applying a contract-based design methodology and demonstrating it in a 3D graphical model. A Python tool checks whether a safety property is violated throughout an animated automatic-metro scenario.</p>
+        </div>
+        <div class="entry-aside">
+          <span class="dates">Mar 2015 to Aug 2015</span>
+          <div class="entry-logo"><img class="logo" src="images/logos/cea.png" alt=""></div>
+        </div>
+      </article>
+      </section>
+
+      <section>
+        <h2 class="sec">Education</h2><div class="sec-rule"></div>
+        <article class="entry">
+        <div class="entry-body">
+          <div class="entry-titles">
+            <h3>Doctor of Philosophy (Ph.D.)<span class="area">, Computer Science</span></h3>
+            <div class="org">French Atomic Energy Commission &amp; Université Paris-Saclay</div>
+            <div class="edunote">Thesis: "Modeling and Qualitative Simulation of Hybrid Systems"</div>
+          </div>
+        </div>
+        <div class="entry-aside">
+          <span class="dates">2015 to 2018</span>
+          <div class="entry-logo"><img class="logo" src="images/logos/paris-saclay.png" alt=""></div>
+        </div>
+      </article>
+<article class="entry">
+        <div class="entry-body">
+          <div class="entry-titles">
+            <h3>Master of Engineering<span class="area">, System Architecture &amp; Embedded Systems</span></h3>
+            <div class="org">CentraleSupélec</div>
+            <div class="edunote">"Design, Modeling and Architecture of Complex Industrial Systems"</div>
+          </div>
+        </div>
+        <div class="entry-aside">
+          <span class="dates">2014 to 2015</span>
+          <div class="entry-logo"><img class="logo" src="images/logos/centralesupelec.png" alt=""></div>
+        </div>
+      </article>
+<article class="entry">
+        <div class="entry-body">
+          <div class="entry-titles">
+            <h3>Engineering Diploma<span class="area">, Electrical Engineering</span></h3>
+            <div class="org">Faculty of Engineering, Lebanese University</div>
+            <div class="edunote">"Electrical Engineering and Industrial Computing"</div>
+          </div>
+        </div>
+        <div class="entry-aside">
+          <span class="dates">2010 to 2015</span>
+          <div class="entry-logo"><img class="logo" src="images/logos/lebanese-university.png" alt=""></div>
+        </div>
+      </article>
+      </section>
+
+      <section>
+        <h2 class="sec">Skills</h2><div class="sec-rule"></div>
+        <div class="skill-row"><div class="skill-name">Programming &amp; Software Engineering</div><div class="skill-kw">C, C++, Java, Python, PyTorch, NumPy, Linux, Travis CI, Git, PyCharm, Jenkins</div></div>
+<div class="skill-row"><div class="skill-name">Formal &amp; Symbolic Methods, Solvers</div><div class="skill-kw">SAT &amp; SMT, UPPAAL, QepCAD, Z3, dReach</div></div>
+<div class="skill-row"><div class="skill-name">Neuroscience (MEG / EEG)</div><div class="skill-kw">MNE-Python, FieldTrip, BESA</div></div>
+<div class="skill-row"><div class="skill-name">System Architecture, Modeling &amp; Simulation</div><div class="skill-kw">MagicDraw (Cameo), Enterprise Architect, arKitect, Papyrus, Multisim, MATLAB &amp; Simulink, LabVIEW (certified), Blender 3D</div></div>
+<div class="skill-row"><div class="skill-name">Web Development</div><div class="skill-kw">HTML, CSS, Angular</div></div>
+<div class="skill-row"><div class="skill-name">Networking</div><div class="skill-kw">Cisco CCNA 1, CCNA 2, CCNA 3</div></div>
+      </section>
+
+      <section>
+        <h2 class="sec">Languages</h2><div class="sec-rule"></div>
+        <div class="langs">English <span class="muted">(Advanced)</span><span class="sep">·</span>French <span class="muted">(Fluent)</span><span class="sep">·</span>Arabic <span class="muted">(Fluent)</span></div>
+      </section>
+
+      <section>
+        <h2 class="sec">Publications</h2><div class="sec-rule"></div>
+        <div class="pubs">Full and up-to-date list of publications available on <a href="https://bit.ly/Hadi-Zaatiti-google-scholar">Google Scholar</a>.</div>
+      </section>
+    </div>
+  </main>
+
+  <footer><a href="mailto:hadizaatiti@gmail.com">hadizaatiti@gmail.com</a><span class="sep">·</span><a href="https://zaatiti.fr">zaatiti.fr</a><span class="sep">·</span><a href="https://bit.ly/Hadi-Zaatiti-google-scholar">Google Scholar</a></footer>
+</body>
+</html>

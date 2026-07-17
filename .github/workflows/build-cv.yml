@@ -1,0 +1,55 @@
+name: Build CV (PDF + web)
+
+# Rebuilds the Typst PDF and the embedded web CV whenever the CV source
+# (cv_src/) changes, then commits the results into /cv so the Jekyll site
+# publishes them at /cv/ and /cv/CV_Hadi_Zaatiti.pdf.
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'cv_src/**'
+      - '.github/workflows/build-cv.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-cv:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Generate resume.json + web CV
+        working-directory: cv_src
+        run: |
+          pip install pyyaml
+          python build.py
+
+      - name: Install Typst
+        uses: typst-community/setup-typst@v4
+
+      - name: Build PDF
+        working-directory: cv_src
+        run: typst compile template.typ "site/CV_Hadi_Zaatiti.pdf" --root .
+
+      - name: Assemble /cv
+        run: |
+          rm -rf cv
+          mkdir -p cv
+          cp cv_src/site/index.html cv/index.html
+          cp -r cv_src/site/images cv/images
+          cp cv_src/site/CV_Hadi_Zaatiti.pdf cv/CV_Hadi_Zaatiti.pdf
+
+      - name: Commit rebuilt CV
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: rebuild CV (PDF + web) [skip ci]"
+          file_pattern: cv/**

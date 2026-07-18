@@ -7,7 +7,7 @@
 <meta name="description" content="Curriculum vitae of {{NAME}}. {{ROLE}}.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --accent:#2c4b8e; --accent-soft:#4a68a8; --red:#9e2b22; --ink:#1c2530; --muted:#5d6b7a;
@@ -20,29 +20,42 @@
     margin:0; color:var(--ink);
     font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
     font-size:15px; line-height:1.55;
-    background:radial-gradient(1200px 600px at 50% -10%, #f2f5f9 0%, #e8ecf2 55%, #e2e7ee 100%);
+    background:transparent;
     min-height:100vh;
   }
 
-  /* top bar */
-  .bar{
-    position:sticky; top:0; z-index:20;
-    display:flex; align-items:center; justify-content:space-between; gap:1rem;
-    padding:.7rem clamp(1rem,4vw,2rem);
-    background:rgba(240,243,247,.82); backdrop-filter:saturate(150%) blur(10px);
-    border-bottom:1px solid var(--rule);
-  }
-  .bar .who{font-family:"Newsreader",Georgia,serif; font-weight:600; color:var(--accent); font-size:1.05rem;}
-  .btn{
-    display:inline-flex; align-items:center; gap:.45rem; flex:none;
-    padding:.5rem .95rem; border-radius:8px; font-weight:600; font-size:.85rem;
-    color:#fff; background:var(--accent); text-decoration:none;
-    transition:background .15s ease, transform .1s ease;
-  }
-  .btn:hover{background:var(--accent-soft);}
-  .btn:active{transform:translateY(1px);}
-  .btn:focus-visible{outline:3px solid var(--accent-soft); outline-offset:2px;}
-  .btn svg{width:15px;height:15px;}
+  /* animated tech background (matches the rest of the site) */
+  .techbg{position:fixed; inset:0; z-index:-2; overflow:hidden;
+    background:radial-gradient(1200px 700px at 50% -10%,#f4f8ff 0%,#eef3fb 55%,#e7eefb 100%);}
+  .techbg::before{content:""; position:absolute; inset:-2px;
+    background-image:linear-gradient(rgba(37,99,235,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.055) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(circle at 50% 22%,#000,transparent 72%);
+    mask-image:radial-gradient(circle at 50% 22%,#000,transparent 72%);}
+  .blob{position:absolute; border-radius:50%; filter:blur(75px); opacity:.5;}
+  .blob.b1{width:460px;height:460px;background:radial-gradient(circle,#8cc6ff,transparent 68%);top:-130px;left:-90px;}
+  .blob.b2{width:410px;height:410px;background:radial-gradient(circle,#b3bcff,transparent 68%);top:16%;right:-120px;}
+  .blob.b3{width:340px;height:340px;background:radial-gradient(circle,#7ff0ff,transparent 68%);bottom:-150px;left:34%;}
+
+  /* site navigation (glass) */
+  .site-nav{position:sticky; top:0; z-index:60;
+    backdrop-filter:blur(16px) saturate(160%); -webkit-backdrop-filter:blur(16px) saturate(160%);
+    background:rgba(255,255,255,.6); border-bottom:1px solid rgba(255,255,255,.85);}
+  .nav-inner{max-width:1080px; margin:0 auto; display:flex; align-items:center; justify-content:space-between;
+    height:64px; padding:0 clamp(1rem,4vw,2rem);}
+  .brand{display:flex; align-items:center; gap:.6rem; font-family:"Space Grotesk",system-ui,sans-serif;
+    font-weight:600; color:var(--ink); font-size:1.05rem; text-decoration:none;}
+  .brand .mark{display:grid; place-items:center; width:34px; height:34px; border-radius:10px; color:#fff;
+    font-size:.85rem; background:linear-gradient(135deg,#3b7bf4,#6366f1); box-shadow:0 6px 16px rgba(37,99,235,.4);}
+  .nav-right{display:flex; align-items:center; gap:.35rem;}
+  .nav-right a{padding:.5rem .85rem; border-radius:10px; color:var(--muted); font-weight:500; font-size:.94rem; text-decoration:none;}
+  .nav-right a:hover, .nav-right a.active{color:#2563eb; background:rgba(37,99,235,.08);}
+  .nav-right a.dl{display:inline-flex; align-items:center; gap:.4rem; margin-left:.3rem; color:#fff; font-weight:600;
+    background:linear-gradient(180deg,#3b7bf4,#2563eb); box-shadow:0 6px 16px rgba(37,99,235,.3);}
+  .nav-right a.dl:hover{color:#fff; transform:translateY(-1px);}
+  .nav-right a.dl svg{width:15px; height:15px;}
+  .nav-toggle{display:none; background:none; border:0; cursor:pointer; color:var(--ink); padding:.3rem;}
+  .nav-toggle svg{width:26px; height:26px;}
 
   /* sheet */
   .sheet{
@@ -106,6 +119,12 @@
   footer .sep{margin:0 .5rem; color:var(--accent-soft); opacity:.6;}
 
   @media (max-width:640px){
+    .nav-toggle{display:block;}
+    .nav-right{position:absolute; top:64px; left:0; right:0; flex-direction:column; align-items:stretch; gap:.2rem;
+      padding:.7rem 1rem 1rem; background:rgba(255,255,255,.94); backdrop-filter:blur(16px);
+      border-bottom:1px solid rgba(255,255,255,.85); transform:translateY(-8px); opacity:0; pointer-events:none; transition:.2s;}
+    .nav-right.open{transform:none; opacity:1; pointer-events:auto;}
+    .nav-right a.dl{margin-left:0; justify-content:center;}
     header.cv{flex-direction:column-reverse; align-items:flex-start; gap:1rem;}
     .avatar{width:82px;height:106px;}
     .entry, .entry.no-logo{grid-template-columns:1fr; row-gap:.6rem;}
@@ -114,17 +133,24 @@
     .entry-logo .logo{max-height:56px;}
     .skill-row{grid-template-columns:1fr;}
   }
-  @media print{.bar{display:none;} body{background:#fff;} .sheet{box-shadow:none; margin:0; max-width:none;}}
+  @media print{.site-nav,.techbg{display:none;} body{background:#fff;} .sheet{box-shadow:none; margin:0; max-width:none;}}
 </style>
 </head>
 <body>
-  <div class="bar">
-    <span class="who">{{NAME}}</span>
-    <a class="btn" href="./{{PDF_NAME}}" download="{{PDF_NAME}}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
-      Download PDF
-    </a>
-  </div>
+  <div class="techbg"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
+  <header class="site-nav">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html"><span class="mark">HZ</span> {{NAME}}</a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      <nav class="nav-right">
+        <a href="../index.html">Home</a>
+        <a href="../projects.html">Projects</a>
+        <a href="index.html" class="active">CV</a>
+        <a href="../index.html#contact">Contact</a>
+        <a class="dl" href="./{{PDF_NAME}}" download="{{PDF_NAME}}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg> Download PDF</a>
+      </nav>
+    </div>
+  </header>
 
   <main class="sheet">
     <div class="sheet-accent"></div>
@@ -167,5 +193,9 @@
   </main>
 
   <footer>{{FOOTER}}</footer>
+  <script>
+    (function(){var t=document.querySelector('.nav-toggle'),l=document.querySelector('.nav-right');
+      if(t&&l){t.addEventListener('click',function(){var o=l.classList.toggle('open');t.setAttribute('aria-expanded',o?'true':'false');});}})();
+  </script>
 </body>
 </html>

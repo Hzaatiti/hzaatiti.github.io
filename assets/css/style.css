@@ -1,5 +1,5 @@
 /* ============================================================
-   Hadi Zaatiti — light + techy design system
+   Hadi Zaatiti light and techy design system
    ============================================================ */
 :root{
   --bg:#eef3fb; --bg-2:#e7eefb;
@@ -118,6 +118,9 @@ section{padding:clamp(2.5rem,6vw,4.5rem) 0}
 .proj .logo{width:96px;height:96px;border-radius:16px;display:grid;place-items:center;padding:14px;
   background:#fff;border:1px solid var(--stroke)}
 .proj .logo img{max-height:100%;max-width:100%;object-fit:contain}
+.logo-stack{display:flex;flex-direction:column;gap:.55rem}
+.logo-mini{width:96px;height:58px;border-radius:12px;display:grid;place-items:center;padding:9px;background:#fff;border:1px solid var(--stroke)}
+.logo-mini img{max-height:100%;max-width:100%;object-fit:contain}
 .proj-head{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin-bottom:.15rem}
 .proj-head h3{font-size:1.35rem}
 .proj .kicker{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;

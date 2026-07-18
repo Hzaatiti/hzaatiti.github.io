@@ -11,7 +11,7 @@ cv.md conventions
 - A blockquote (> ...) right after the frontmatter is the summary.
 - `## Section` starts a section: Experience, Education, Skills, Languages.
 - Experience/Education entries:  `### Title @ Organization`
-      *start – end* · optional note        (dates line, en dash between them;
+      *start to end* · optional note        (dates line, ranges use "to";
                                              "present"/"now" => ongoing)
       one or more paragraph lines           -> entry summary
       - bullet lines                        -> highlights
@@ -52,14 +52,14 @@ def split_frontmatter(text: str):
 
 
 def parse_dateline(line: str):
-    """`*2024-01 – present* · Full-time` -> ('2024-01', '', 'Full-time')."""
+    """`*2024-01 to present* · Full-time` -> ('2024-01', '', 'Full-time')."""
     m = re.match(r"\*(.+?)\*(?:\s*·\s*(.+))?$", line.strip())
     if not m:
         return None
     span, note = m.group(1), (m.group(2) or "").strip()
     # Split on " to " or a whitespace-surrounded dash (the range separator),
     # so hyphens inside ISO dates like "2024-01" are preserved.
-    parts = re.split(r"\s+(?:to|[–—-])\s+", span.strip(), maxsplit=1)
+    parts = re.split(r"\s+(?:to|-)\s+", span.strip(), maxsplit=1)
     start = parts[0].strip()
     end = parts[1].strip() if len(parts) > 1 else ""
     if end.lower() in ONGOING:
@@ -209,7 +209,7 @@ def main():
     }
 
     OUT.write_text(json.dumps(resume, indent=2, ensure_ascii=False), encoding="utf-8")
-    print(f"Wrote {OUT}  —  {len(resume['work'])} roles, "
+    print(f"Wrote {OUT}: {len(resume['work'])} roles, "
           f"{len(resume['education'])} degrees, {len(resume['skills'])} skill groups, "
           f"{len(resume['languages'])} languages.")
 

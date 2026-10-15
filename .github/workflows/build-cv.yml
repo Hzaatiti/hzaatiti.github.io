@@ -51,7 +51,7 @@ jobs:
           cp cv_src/site/CV_Hadi_Zaatiti.pdf cv/CV_Hadi_Zaatiti.pdf
 
       - name: Commit rebuilt CV
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "chore: rebuild CV (PDF + web) [skip ci]"
           file_pattern: cv/**

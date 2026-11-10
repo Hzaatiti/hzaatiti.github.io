@@ -21,8 +21,10 @@ cv.md conventions
   then a short paragraph.
 - Bold lead-in: text before the first ": " in a bullet is rendered bold, so
   writing `- **Label:** text` looks good both on GitHub and in the PDF.
-- Links: `[text](https://...)` works in summaries, bullets and project
-  paragraphs, and stays clickable in both the PDF and the web CV.
+- Logos: `<!-- logo: images/logos/a.png -->` under a heading; list two
+  separated by a comma to stack them.
+- Links: `[text](https://...)` works in summaries, bullets, education notes
+  and project paragraphs, and stays clickable in both the PDF and the web CV.
 """
 
 import json
@@ -274,9 +276,10 @@ def highlight_html(s):
 
 
 def logo_html(path, name=""):
-    if not path:
-        return ""
-    return f'<img class="logo" src="{esc(path)}" alt="{esc(name)}">'
+    """One logo, or several when the cv.md comment lists them separated by commas."""
+    paths = [p.strip() for p in str(path).split(",") if p.strip()]
+    return "".join(f'<img class="logo" src="{esc(p)}" alt="{esc(name) if i == 0 else ""}">'
+                   for i, p in enumerate(paths))
 
 
 def row(note, text, cls="row"):
@@ -340,7 +343,7 @@ def render_site(resume, fm, tpl):
     edu = []
     for e in resume["education"]:
         area = f', {esc(e["area"])}' if e.get("area") else ""
-        thesis = f'<p class="thesis">{esc(e["note"])}</p>' if e.get("note") else ""
+        thesis = f'<p class="thesis">{inline_html(e["note"])}</p>' if e.get("note") else ""
         note = (f'<span class="years">{daterange_html(e.get("startDate",""), e.get("endDate",""))}</span>'
                 f'{logo_html(e.get("logo",""), e["institution"])}')
         edu.append(row(note, f'<h3>{esc(e["studyType"])}{area}</h3>'

@@ -9,7 +9,7 @@ location: Abu Dhabi, United Arab Emirates
 citizenship: French citizen
 age: 33 years old
 caption: This CV is best viewed digitally.
-scholar: https://bit.ly/Hadi-Zaatiti-google-scholar
+scholar: https://scholar.google.com/citations?user=OHl8Rl0AAAAJ&hl=en
 photo: images/photo.jpg
 ---
 
@@ -21,7 +21,7 @@ photo: images/photo.jpg
 <!-- logo: images/logos/nyuad.png -->
 *2024-01 to present* · Full-time
 
-Magnetoencephalography (MEG) and electroencephalography (EEG) labs, part of the BioMedical Imaging Core at NYUAD.
+[Magnetoencephalography (MEG) and electroencephalography (EEG) labs](https://neurowaves.science), part of the [BioMedical Imaging Core](https://nyuad.nyu.edu/en/research/facilities-and-support/core-technology-platforms/biomedical-imaging.html) at NYUAD.
 
 - **Experimental design:** Work with research groups to design and implement MEG and EEG experiments, matching the recording setup to the neuroscience question being asked.
 - **Systems:** Maintain, calibrate and monitor the MEG, EEG and fMRI-compatible EEG systems, and adapt hardware and software as research needs change.
@@ -33,7 +33,7 @@ Magnetoencephalography (MEG) and electroencephalography (EEG) labs, part of the 
 <!-- logo: images/logos/airbus.png -->
 *2022-02 to 2024-01* · Full-time
 
-Model Manager for two programs: FCAS (Future Combat Air System) and ED (EuroDrone). Also served as MBSE & Simulation Tutor at Airbus Academy.
+Model Manager for two programs: [FCAS (Future Combat Air System)](https://www.airbus.com/en/products-services/defence/multi-domain-superiority/future-combat-air-system-fcas) and [ED (EuroDrone)](https://www.airbus.com/en/defence/eurodrone). Also served as MBSE & Simulation Tutor at Airbus Academy.
 
 - **MBSE processes:** Design technical processes for writing requirements and modeling operational, functional and technical architecture elements.
 - **Systems engineering deployment:** Apply architectural frameworks such as UAF and UBM (Cameo Systems Modeler, Enterprise Architect, Doors, RPE, Jira, Confluence).
@@ -48,7 +48,7 @@ Model Manager for two programs: FCAS (Future Combat Air System) and ED (EuroDron
 Architect for autonomous transportation systems in collaboration with RATP, Transdev, SNCF, Renault, PSA, Navya and EasyMile.
 
 - **Autonomous shuttles:** Designed, specified and modeled a complete autonomous shuttle system with project partners, ensuring correct behavior via verification and simulation techniques.
-- **Representation learning on manifolds (with Stanford and Inria):** Worked on data representation on manifolds (mainly graphs) as the 3rd contributor to geomstats.ai, and on learning methods for complex system models (simple, timed and hybrid automata).
+- **Representation learning on manifolds (with Stanford and Inria):** Worked on data representation on manifolds (mainly graphs) as the 3rd contributor to [geomstats.ai](https://geomstats.ai), and on learning methods for complex system models (simple, timed and hybrid automata).
 
 ### System Modeling and Simulation Teacher @ École Centrale de Paris, CentraleSupélec
 <!-- logo: images/logos/centralesupelec.png -->
@@ -87,7 +87,7 @@ Collaboration between the NYUAD MEG lab and the epilepsy team at Cleveland Clini
 ### NeuroWaves @ NYU Abu Dhabi
 *2024 to present*
 
-Documentation, experiment code and processing pipelines for the MEG and EEG labs: BIDS-compliant datasets with automated validation and continuous testing. [neurowaves.readthedocs.io](https://neurowaves.readthedocs.io/)
+Documentation, experiment code and processing pipelines for the MEG and EEG labs: BIDS-compliant datasets with automated validation and continuous testing. [neurowaves.science](https://neurowaves.science)
 
 ### Geomstats @ with Stanford and Inria
 *2018 to 2022*
@@ -97,22 +97,22 @@ Open-source Python package for geometry and statistics on manifolds. Third contr
 ## Education
 
 ### Doctor of Philosophy (Ph.D.), Computer Science @ French Atomic Energy Commission & Université Paris-Saclay
-<!-- logo: images/logos/paris-saclay.png -->
+<!-- logo: images/logos/cea.png, images/logos/extra-wordmark.png -->
 *2015 to 2018*
 
-Thesis: "Modeling and Qualitative Simulation of Hybrid Systems"
+Thesis: ["Modeling and Qualitative Simulation of Hybrid Systems"](https://tel.archives-ouvertes.fr/tel-01947003/document) ([link to thesis](https://tel.archives-ouvertes.fr/tel-01947003/document))
 
 ### Master of Engineering, System Architecture & Embedded Systems @ CentraleSupélec
 <!-- logo: images/logos/centralesupelec.png -->
 *2014 to 2015*
 
-"Design, Modeling and Architecture of Complex Industrial Systems"
+["Design, Modeling and Architecture of Complex Industrial Systems"](https://www.master-comasic.fr/) ([link to courses](https://www.master-comasic.fr/))
 
 ### Engineering Diploma, Electrical Engineering @ Faculty of Engineering, Lebanese University
 <!-- logo: images/logos/lebanese-university.png -->
 *2010 to 2015*
 
-"Electrical Engineering and Industrial Computing"
+["Electrical Engineering and Industrial Computing"](http://www.ulfg.ul.edu.lb/courses?major=1) ([link to courses](http://www.ulfg.ul.edu.lb/courses?major=1))
 
 ## Skills
 
@@ -129,4 +129,4 @@ English (Advanced) · French (Fluent) · Arabic (Fluent)
 
 ## Publications
 
-Full and up-to-date list of publications available on [Google Scholar](https://bit.ly/Hadi-Zaatiti-google-scholar).
+Full and up-to-date list of publications available on [Google Scholar](https://scholar.google.com/citations?user=OHl8Rl0AAAAJ&hl=en).

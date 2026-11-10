@@ -1,22 +1,19 @@
 // ============================================================================
 //  CV template: reads resume.json and renders the PDF.
 //  You normally DON'T need to edit this file: change your content in cv.md
-//  and run build.py. Come here only to tweak design (colors, fonts, spacing).
-//  The knobs you're most likely to touch are right below.
+//  and run build.py. Come here only to tweak design (colors, fonts,
+//  spacing). The knobs you're most likely to touch are right below.
 // ============================================================================
 
 #let data = json("resume.json")
 
 // ---- Design knobs -----------------------------------------------------------
-#let accent      = rgb("#2C4B8E")   // name rule, section headers (royal navy)
-#let accent-red  = rgb("#9E2B22")   // links (deep red)
-#let ink         = rgb("#1B2432")   // body text
-#let soft        = rgb("#5A6472")   // dates, organisations, footer
-#let hair        = rgb("#C9D2DF")   // thin rules
+#let accent      = rgb("#2C4B8E")   // name, section headers, rules (royal navy)
+#let accent-red  = rgb("#7A2636")   // lead lines above bullets, thesis titles and links (burgundy)
+#let org-color   = rgb("#565656")   // organisation / institution names (muted gray)
 #let body-font   = "Libertinus Serif" // ships with Typst, always available
-#let base-size   = 9.5pt
-#let page-margin = (left: 1.7cm, right: 1.7cm, top: 1.5cm, bottom: 1.7cm)
-#let logo-col    = 1.75cm           // width of the logo column beside entries
+#let base-size   = 10pt
+#let page-margin = (x: 1.7cm, y: 1.6cm)
 // -----------------------------------------------------------------------------
 
 #let months = (
@@ -25,9 +22,9 @@
 )
 
 // Format an ISO-ish date string ("2024-01", "2015") into a readable label.
-// Empty / missing endDate becomes "present".
+// Empty / missing endDate becomes "Present".
 #let fmt-date(d) = {
-  if d == none or d == "" { return "present" }
+  if d == none or d == "" { return "Present" }
   let parts = str(d).split("-")
   if parts.len() >= 2 {
     months.at(parts.at(1), default: "") + " " + parts.at(0)
@@ -38,11 +35,38 @@
 
 #let daterange(start, end) = fmt-date(start) + " to " + fmt-date(end)
 
+// A logo scaled to fit within a fixed box, right-aligned, so wide and tall
+// logos share a consistent footprint in the margin.
+#let logo-box(path) = box(width: 3.5cm, height: 1.4cm)[
+  #align(right + horizon, image(path, fit: "contain", width: 100%, height: 100%))
+]
+
+// A larger logo for the entry's right column, centered in its cell.
+// Several logos can be listed for one entry, separated by commas; they stack.
+#let logo-big(path) = {
+  let paths = path.split(",").map(p => p.trim()).filter(p => p != "")
+  let n = paths.len()
+  let gap = 0.18cm
+  box(width: 3.6cm, height: 2.3cm, align(center + horizon,
+    stack(dir: ttb, spacing: gap,
+      ..paths.map(p => image(p, fit: "contain",
+        width: if n == 1 { 100% } else { 62% },
+        height: (2.3cm - gap * (n - 1)) / n)))))
+}
+
+// One row of the contact box: a small icon followed by its text.
+#let icon-row(icon-path, body) = grid(
+  columns: (1.1em, auto), column-gutter: 0.4em,
+  align: (center + horizon, left + horizon),
+  image(icon-path, width: 0.9em),
+  body,
+)
+
 // Turn "[text](https://...)" inside a string into a clickable link.
 #let rich(s) = {
   let out = ()
   let pos = 0
-  for m in s.matches(regex("\[([^\]]+)\]\((https?://[^)\s]+)\)")) {
+  for m in s.matches(regex("\\[([^\\]]+)\\]\\((https?://[^)\\s]+)\\)")) {
     out.push(s.slice(pos, m.start))
     out.push(link(m.captures.at(1), m.captures.at(0)))
     pos = m.end
@@ -61,137 +85,129 @@
   }
 }
 
-// A logo scaled to fit a fixed box, so wide and tall logos share one footprint.
-#let logo-box(path) = box(width: logo-col - 0.3cm, height: 0.95cm)[
-  #align(left + top, image(path, fit: "contain", width: 100%, height: 100%))
-]
-
-// One row of the contact block: a small icon followed by its text.
-#let icon-row(icon-path, body) = grid(
-  columns: (1.1em, auto), column-gutter: 0.5em,
-  align: (center + horizon, left + horizon),
-  image(icon-path, width: 0.85em),
-  body,
-)
-
 // ---- Document & page setup --------------------------------------------------
 #set document(
   title: data.basics.name + " CV",
   author: data.basics.name,
 )
-#set page(
-  paper: "a4", margin: page-margin,
-  footer: context {
-    set text(size: 7.8pt, fill: soft)
-    grid(columns: (1fr, auto, 1fr), align: (left, center, right),
-      data.basics.name + ", curriculum vitae",
-      data.basics.at("caption", default: ""),
-      [#counter(page).display() of #counter(page).final().first()],
-    )
-  },
-)
-#set text(font: body-font, size: base-size, fill: ink, lang: "en", hyphenate: false)
-#set par(justify: false, leading: 0.58em, spacing: 0.7em)
-#set list(indent: 0pt, body-indent: 0.55em, spacing: 0.52em,
-  marker: text(fill: accent, size: 0.8em, baseline: -0.08em, sym.bullet))
-#show link: it => text(fill: accent-red, it)
+#set page(paper: "a4", margin: page-margin, numbering: none)
+#set text(font: body-font, size: base-size, fill: rgb("#1a1a1a"), lang: "en", hyphenate: false)
+#set par(justify: true, leading: 0.6em)
+// links are underlined so they stay visible inside the coloured lead lines
+#show link: it => underline(offset: 1.6pt, stroke: 0.35pt + accent-red, text(fill: accent-red, it))
 
-// Section heading with a hairline beneath it.
+// Section heading with a full-width accent rule beneath it.
 #let section(title) = {
-  v(0.95em)
-  block(below: 0.75em, breakable: false, {
-    text(size: 12.5pt, weight: "semibold", fill: accent, title)
-    v(-0.62em)
-    line(length: 100%, stroke: 0.5pt + hair)
+  v(0.7em)
+  // sticky: a heading never sits alone at the bottom of a page
+  block(sticky: true, {
+    text(size: 11.5pt, weight: "bold", fill: accent, tracking: 0.4pt,
+      upper(title))
+    v(-0.35em)
+    line(length: 100%, stroke: 0.6pt + accent)
   })
+  v(0.15em)
 }
 
-// The shared entry layout: logo (or nothing) on the left, then a heading line
-// with the dates set against the right margin, then the body.
-#let entry(logo: "", title: [], dates: "", sub: none, body: none) = {
-  block(breakable: false, below: 1.15em, grid(
-    columns: (logo-col, 1fr),
-    align: (left + top, left + top),
-    if logo != "" { pad(top: 0.1em, logo-box(logo)) } else { [] },
-    stack(dir: ttb,
-      grid(columns: (1fr, auto), column-gutter: 1em, align: (left + top, right + top),
-        text(size: 10.6pt, weight: "semibold", title),
-        text(size: 8.6pt, fill: soft, dates),
-      ),
-      ..if sub != none { (v(0.5em), text(fill: soft, sub)) } else { () },
-      ..if body != none { (v(0.68em), body) } else { () },
-    ),
-  ))
-}
-
-// ---- Header: name, role, summary | contact | photo --------------------------
+// ---- Header: name, summary and a flat contact strip on the left | photo -----
 #{
   let b = data.basics
-  let role = b.at("label", default: "").split(" · ")
 
-  let left-col = stack(dir: ttb,
-    text(size: 27pt, weight: "semibold", b.name),
-    v(1.05em),
-    text(size: 11.5pt, fill: accent, role.join(linebreak())),
-    ..if b.at("summary", default: "") != "" { (v(1.1em), b.summary) } else { () },
-  )
-
-  let rows = ()
-  if b.at("affiliation", default: "") != "" {
-    rows.push(icon-row("images/icons/house.svg", b.affiliation))
-  }
+  // Contact strip: two flat rows of three, so it sits under the summary
+  // instead of standing as a tall box beside it.
+  let cell(icon, body) = icon-row("images/icons/" + icon + ".svg", body)
+  let first-row = ()
+  let second-row = ()
+  if b.at("affiliation", default: "") != "" { first-row.push(cell("house", b.affiliation)) }
   if b.at("email", default: "") != "" {
-    rows.push(icon-row("images/icons/envelope.svg", link("mailto:" + b.email, b.email)))
-  }
-  if b.at("phone", default: "") != "" {
-    rows.push(icon-row("images/icons/phone.svg", b.phone.split(" · ").join(linebreak())))
+    first-row.push(cell("envelope", link("mailto:" + b.email, b.email)))
   }
   if b.at("url", default: "") != "" {
-    rows.push(icon-row("images/icons/globe.svg",
-      link(b.url, b.url.replace("https://", "").replace("http://", ""))))
+    first-row.push(cell("globe", link(b.url, b.url.replace("https://", "").replace("http://", ""))))
   }
-  let personal = (b.at("citizenship", default: ""), b.at("age", default: "")).filter(x => x != "")
-  if personal.len() > 0 {
-    rows.push(icon-row("images/icons/user.svg", personal.join(", ")))
+  if b.at("phone", default: "") != "" {
+    second-row.push(cell("phone", b.phone.split(" · ").join(h(1em))))
   }
-  let contact = {
-    set text(size: 8.8pt)
-    set par(leading: 0.5em)
-    stack(spacing: 0.62em, ..rows)
-  }
+  if b.at("citizenship", default: "") != "" { second-row.push(cell("flag", b.citizenship)) }
+  if b.at("age", default: "") != "" { second-row.push(cell("user", b.age)) }
+  let cols = calc.max(first-row.len(), second-row.len())
+  let pad-to(items) = items + range(cols - items.len()).map(_ => [])
+  let contact-box = box(
+    fill: rgb("#eef3fb"), stroke: 0.7pt + accent, radius: 3pt, inset: (x: 8pt, y: 6pt),
+    {
+      set text(size: 8.6pt)
+      grid(columns: cols, column-gutter: 1.6em, row-gutter: 0.7em,
+        ..pad-to(first-row), ..pad-to(second-row))
+    },
+  )
 
-  let photo = if b.at("photo", default: "") != "" {
-    box(radius: 1.5pt, clip: true, image(b.photo, width: 2.45cm))
+  // LEFT: name, summary paragraph, contact strip, caption
+  let parts = (text(size: 24pt, weight: "bold", fill: black, b.name),)
+  if b.at("summary", default: "") != "" {
+    parts.push(block({
+      set text(size: 8.5pt, fill: rgb("#333333"))
+      set par(justify: true, leading: 0.5em)
+      b.summary
+    }))
+  }
+  parts.push(contact-box)
+  if b.at("caption", default: "") != "" {
+    parts.push(text(size: 7.5pt, style: "italic", fill: rgb("#666666"), "*" + b.caption))
+  }
+  let left-col = stack(dir: ttb, spacing: 0.36cm, ..parts)
+
+  // RIGHT: photo
+  let right-col = if b.at("photo", default: "") != "" {
+    box(radius: 4pt, clip: true, image(b.photo, width: 2.9cm))
   } else { [] }
 
   grid(
-    columns: (1fr, auto, auto),
-    column-gutter: 1.5em,
-    align: (left + top, left + top, right + top),
-    left-col, pad(top: 0.5em, contact), photo,
+    columns: (1fr, 2.9cm),
+    column-gutter: 1.4em,
+    align: (left + top, right + top),
+    left-col, right-col,
   )
-  v(0.1em)
-  line(length: 100%, stroke: 1pt + accent)
 }
 
 // ---- Experience -------------------------------------------------------------
 #if "work" in data and data.work.len() > 0 {
   section("Experience")
   for job in data.work {
-    let dates = daterange(job.at("startDate", default: ""), job.at("endDate", default: ""))
-    let note = job.at("note", default: "")
-    entry(
-      logo: job.at("logo", default: ""),
-      title: job.position,
-      dates: if note != "" { dates + ", " + lower(note) } else { dates },
-      sub: job.name,
-      body: {
-        if job.at("summary", default: "") != "" { rich(job.summary) }
+    grid(
+      columns: (1fr, 3.8cm), column-gutter: 0.8em,
+      align: (left + top, center + horizon),
+      // LEFT: dates (top-right) + org + title, then summary + bullets
+      {
+        grid(columns: (1fr, auto), column-gutter: 0.6em, align: (left + top, right + top),
+          {
+            text(size: 11pt, fill: org-color, job.name)
+            linebreak()
+            text(weight: "bold", size: 10.5pt, job.position)
+          },
+          {
+            let dates = daterange(job.at("startDate", default: ""), job.at("endDate", default: ""))
+            let note = job.at("note", default: "")
+            let lbl = if note != "" { dates + " · " + note } else { dates }
+            text(size: 8pt, fill: rgb("#666666"), tracking: 0.3pt, smallcaps(lbl))
+          },
+        )
+        if job.at("summary", default: "") != "" {
+          v(0.2em)
+          // burgundy when it introduces a bullet list, plain black when it stands alone
+          let lead = job.at("highlights", default: ()).len() > 0
+          text(size: 9.5pt, fill: if lead { accent-red } else { rgb("#1a1a1a") }, rich(job.summary))
+        }
         if job.at("highlights", default: ()).len() > 0 {
-          list(..job.highlights.map(h => render-highlight(h)))
+          v(0.2em)
+          set text(size: 9.5pt)
+          list(indent: 0.4em, spacing: 0.5em,
+            ..job.highlights.map(h => render-highlight(h)))
         }
       },
+      // RIGHT: logo, vertically centered against the whole entry
+      if job.at("logo", default: "") != "" { logo-big(job.logo) } else { [] },
     )
+    v(0.7em)
   }
 }
 
@@ -199,20 +215,30 @@
 #if "projects" in data and data.projects.len() > 0 {
   section("Projects")
   for p in data.projects {
-    entry(
-      logo: p.at("logo", default: ""),
-      title: p.name,
-      dates: if p.at("dated", default: false) {
-        daterange(p.at("startDate", default: ""), p.at("endDate", default: ""))
-      } else { "" },
-      sub: p.at("entity", default: none),
-      body: {
-        if p.at("summary", default: "") != "" { rich(p.summary) }
-        if p.at("highlights", default: ()).len() > 0 {
-          list(..p.highlights.map(h => render-highlight(h)))
+    grid(columns: (1fr, auto), column-gutter: 0.6em, align: (left + top, right + top),
+      {
+        if p.at("entity", default: "") != "" {
+          text(size: 11pt, fill: org-color, p.entity)
+          linebreak()
         }
+        text(weight: "bold", size: 10.5pt, p.name)
       },
+      if p.at("dated", default: false) {
+        text(size: 8pt, fill: rgb("#666666"), tracking: 0.3pt,
+          smallcaps(daterange(p.at("startDate", default: ""), p.at("endDate", default: ""))))
+      } else { [] },
     )
+    if p.at("summary", default: "") != "" {
+      v(0.2em)
+      text(size: 9.5pt, rich(p.summary))
+    }
+    if p.at("highlights", default: ()).len() > 0 {
+      v(0.2em)
+      set text(size: 9.5pt)
+      list(indent: 0.4em, spacing: 0.5em,
+        ..p.highlights.map(h => render-highlight(h)))
+    }
+    v(0.7em)
   }
 }
 
@@ -220,34 +246,51 @@
 #if "education" in data and data.education.len() > 0 {
   section("Education")
   for ed in data.education {
-    entry(
-      logo: ed.at("logo", default: ""),
-      title: {
-        ed.studyType
-        if ed.at("area", default: "") != "" { text(weight: "regular", ", " + ed.area) }
+    grid(
+      columns: (1fr, 3.8cm), column-gutter: 0.8em,
+      align: (left + top, center + horizon),
+      {
+        grid(columns: (1fr, auto), column-gutter: 0.6em, align: (left + top, right + top),
+          {
+            text(weight: "bold", ed.studyType)
+            if ed.at("area", default: "") != "" { text(", " + ed.area) }
+            linebreak()
+            text(size: 10pt, fill: org-color, ed.institution)
+            if ed.at("note", default: "") != "" {
+              linebreak()
+              text(size: 9pt, style: "italic", fill: accent-red, rich(ed.note))
+            }
+          },
+          text(size: 8pt, fill: rgb("#666666"), tracking: 0.3pt,
+            smallcaps(daterange(ed.at("startDate", default: ""), ed.at("endDate", default: "")))),
+        )
       },
-      dates: daterange(ed.at("startDate", default: ""), ed.at("endDate", default: "")),
-      sub: ed.institution,
-      body: if ed.at("note", default: "") != "" { emph(ed.note) } else { none },
+      if ed.at("logo", default: "") != "" { logo-big(ed.logo) } else { [] },
     )
+    v(0.6em)
   }
 }
 
 // ---- Skills -----------------------------------------------------------------
 #if "skills" in data and data.skills.len() > 0 {
   section("Skills")
-  grid(columns: (6.3cm, 1fr), column-gutter: 0.8em, row-gutter: 0.85em,
-    ..data.skills.map(sk => (
-      text(weight: "semibold", sk.name),
+  set text(size: 9.5pt)
+  for sk in data.skills {
+    grid(columns: (5.6cm, 1fr), column-gutter: 0.6em, row-gutter: 0.4em,
+      text(weight: "bold", fill: accent, sk.name),
       sk.at("keywords", default: ()).join(", "),
-    )).flatten()
-  )
+    )
+    v(0.25em)
+  }
 }
 
 // ---- Languages --------------------------------------------------------------
 #if "languages" in data and data.languages.len() > 0 {
   section("Languages")
-  data.languages.map(l => l.language + " (" + lower(l.fluency) + ")").join(", ")
+  set text(size: 9.5pt)
+  data.languages
+    .map(l => l.language + " (" + l.fluency + ")")
+    .join([   #text(fill: accent)[•]   ])
 }
 
 // ---- Publications link ------------------------------------------------------
@@ -256,7 +299,8 @@
     .filter(p => p.at("network", default: "") == "Google Scholar")
   if scholar.len() > 0 {
     section("Publications")
-    [The full, current list is on ]
+    set text(size: 9.5pt)
+    [Full and up-to-date list of publications available on ]
     link(scholar.at(0).url)[Google Scholar]
     [.]
   }

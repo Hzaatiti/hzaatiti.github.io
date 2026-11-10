@@ -21,12 +21,13 @@ photo: images/photo.jpg
 <!-- logo: images/logos/nyuad.png -->
 *2024-01 to present* · Full-time
 
-MagnetoEncephaloGraphy (MEG) and ElectroEncephaloGraphy (EEG) Labs, part of the BioMedical Imaging Core at NYUAD.
+Magnetoencephalography (MEG) and electroencephalography (EEG) labs, part of the BioMedical Imaging Core at NYUAD.
 
-- **Experimental design & hypotheses:** Collaborate on the design and implementation of MEG/EEG experimental paradigms, aligning technical infrastructure with neurobiological objectives to investigate complex cognitive and clinical phenomena.
-- **System integration & maintenance:** Maintain and optimize MEG, EEG, and fMRI-compatible EEG systems; proactively adapt hardware and software to evolving research requirements while ensuring peak performance through rigorous calibration and technical monitoring.
-- **Advanced analysis & pipeline development:** Engineer robust data-processing pipelines and apply sophisticated modeling techniques to transform raw signals into high-fidelity neural data, enabling deeper neuroscientific insight and reproducible results.
-- **Scientific impact & lifecycle management:** Lead research projects from conceptualization to dissemination, ensuring rigorous methodology and high-quality outputs for peer-reviewed publications and applied clinical contexts.
+- **Experimental design:** Work with research groups to design and implement MEG and EEG experiments, matching the recording setup to the neuroscience question being asked.
+- **Systems:** Maintain, calibrate and monitor the MEG, EEG and fMRI-compatible EEG systems, and adapt hardware and software as research needs change.
+- **Analysis pipelines:** Build the data-processing pipelines that take raw recordings to clean, reproducible results (MNE-Python, FieldTrip, BIDS).
+- **Research projects:** Lead projects from first idea to publication, for peer-reviewed papers and applied clinical contexts.
+- **Clinical collaboration:** Epilepsy project with Cleveland Clinic Abu Dhabi (see Projects).
 
 ### System Designer, MBSE & Simulation Specialist @ Airbus Defence & Space
 <!-- logo: images/logos/airbus.png -->
@@ -77,6 +78,22 @@ During my Ph.D., taught 2nd- and 3rd-year computer science students. Courses inc
 
 Addressed the safety of a cyber-physical railway system by applying a contract-based design methodology and demonstrating it in a 3D graphical model. A Python tool checks whether a safety property is violated throughout an animated automatic-metro scenario.
 
+## Projects
+
+### Epilepsy in the brain @ NYU Abu Dhabi with Cleveland Clinic Abu Dhabi
+
+Collaboration between the NYUAD MEG lab and the epilepsy team at Cleveland Clinic Abu Dhabi (CCAD). Press: [A Closer Look at Epilepsy in the Brain](https://nyuad.nyu.edu/en/news/latest-news/science-and-technology/2026/october/a-closer-look-at-epilepsy-in-the-brain.html), NYU Abu Dhabi News, October 2026.
+
+### NeuroWaves @ NYU Abu Dhabi
+*2024 to present*
+
+Documentation, experiment code and processing pipelines for the MEG and EEG labs: BIDS-compliant datasets with automated validation and continuous testing. [neurowaves.readthedocs.io](https://neurowaves.readthedocs.io/)
+
+### Geomstats @ with Stanford and Inria
+*2018 to 2022*
+
+Open-source Python package for geometry and statistics on manifolds. Third contributor, working on graph-structured data and learning methods for automata. [geomstats.ai](https://geomstats.ai)
+
 ## Education
 
 ### Doctor of Philosophy (Ph.D.), Computer Science @ French Atomic Energy Commission & Université Paris-Saclay
@@ -101,7 +118,7 @@ Thesis: "Modeling and Qualitative Simulation of Hybrid Systems"
 
 - **Programming & Software Engineering:** C, C++, Java, Python, PyTorch, NumPy, Linux, Travis CI, Git, PyCharm, Jenkins
 - **Formal & Symbolic Methods, Solvers:** SAT & SMT, UPPAAL, QepCAD, Z3, dReach
-- **Neuroscience (MEG / EEG):** MNE-Python, FieldTrip, BESA
+- **Neuroscience (MEG / EEG):** MNE-Python, FieldTrip, BESA, BIDS
 - **System Architecture, Modeling & Simulation:** MagicDraw (Cameo), Enterprise Architect, arKitect, Papyrus, Multisim, MATLAB & Simulink, LabVIEW (certified), Blender 3D
 - **Web Development:** HTML, CSS, Angular
 - **Networking:** Cisco CCNA 1, CCNA 2, CCNA 3

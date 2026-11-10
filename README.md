@@ -3,13 +3,13 @@
 A lightweight static site: plain HTML, CSS and a little JavaScript, no build step or framework. Served directly by GitHub Pages.
 
 ## Pages
-- `index.html` is the home page (hero, about, skills, contact).
-- `projects.html` documents projects and experience (Geomstats, NeuroWaves, and earlier roles).
+- `index.html` is the home page (introduction, current work, earlier roles, tools, contact).
+- `projects.html` documents the projects (epilepsy with Cleveland Clinic Abu Dhabi, NeuroWaves, Geomstats) and earlier roles.
 - `cv/` is the CV: a web version at `/cv/` plus a downloadable PDF.
-- `assets/` holds the stylesheet, script and images.
+- `assets/` holds the stylesheet, script, images and fonts. The Libertinus fonts are served from `assets/fonts/`, so the site makes no third-party requests.
 
 ## The CV (PDF and web)
-The CV is generated from `cv_src/` with a Typst template:
+The CV is generated from `cv_src/cv.md`, the single source for both the PDF (Typst template) and the web page at `/cv/`. Sections are Experience, Projects, Education, Skills and Languages, and `[text](https://...)` links work in any paragraph or bullet.
 
     cd cv_src
     pip install pyyaml

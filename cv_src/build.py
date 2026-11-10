@@ -9,15 +9,20 @@ cv.md conventions
 -----------------
 - YAML frontmatter holds header/contact fields.
 - A blockquote (> ...) right after the frontmatter is the summary.
-- `## Section` starts a section: Experience, Education, Skills, Languages.
+- `## Section` starts a section: Experience, Projects, Education, Skills,
+  Languages.
 - Experience/Education entries:  `### Title @ Organization`
       *start to end* · optional note        (dates line, ranges use "to";
                                              "present"/"now" => ongoing)
       one or more paragraph lines           -> entry summary
       - bullet lines                        -> highlights
   For education, the Title is split on the first comma into degree, field.
+- Projects entries:  `### Name @ Partner or context`, an optional dates line,
+  then a short paragraph.
 - Bold lead-in: text before the first ": " in a bullet is rendered bold, so
   writing `- **Label:** text` looks good both on GitHub and in the PDF.
+- Links: `[text](https://...)` works in summaries, bullets and project
+  paragraphs, and stays clickable in both the PDF and the web CV.
 """
 
 import json
@@ -67,7 +72,7 @@ def parse_dateline(line: str):
     return start, end, note
 
 
-def parse_entries(lines, is_education):
+def parse_entries(lines, is_education, is_project=False):
     entries = []
     cur = None
     for raw in lines:
@@ -99,7 +104,18 @@ def parse_entries(lines, is_education):
     out = []
     for e in entries:
         summary = " ".join(e["summary"]).strip()
-        if is_education:
+        if is_project:
+            out.append({
+                "name": e["_title"],
+                "entity": e["org"],
+                "startDate": e["start"],
+                "endDate": e["end"],
+                "dated": bool(e["start"]),
+                "logo": e["logo"],
+                "summary": summary,
+                "highlights": e["highlights"],
+            })
+        elif is_education:
             degree, _, field = e["_title"].partition(",")
             out.append({
                 "studyType": degree.strip(),
@@ -203,13 +219,15 @@ def main():
     resume = {
         "basics": basics,
         "work": parse_entries(sections.get("experience", []), is_education=False),
+        "projects": parse_entries(sections.get("projects", []), is_education=False,
+                                  is_project=True),
         "education": parse_entries(sections.get("education", []), is_education=True),
         "skills": parse_skills(sections.get("skills", [])),
         "languages": parse_languages(sections.get("languages", [])),
     }
 
     OUT.write_text(json.dumps(resume, indent=2, ensure_ascii=False), encoding="utf-8")
-    print(f"Wrote {OUT}: {len(resume['work'])} roles, "
+    print(f"Wrote {OUT}: {len(resume['work'])} roles, {len(resume['projects'])} projects, "
           f"{len(resume['education'])} degrees, {len(resume['skills'])} skill groups, "
           f"{len(resume['languages'])} languages.")
 
@@ -223,9 +241,17 @@ def esc(s):
     return (str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
 
 
+LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)\s]+)\)")
+
+
+def inline_html(s):
+    """Escape text, then turn [text](url) into a real link."""
+    return LINK.sub(lambda m: f'<a href="{m.group(2)}">{m.group(1)}</a>', esc(s))
+
+
 def fmt_date_html(d):
     if not d:
-        return "Present"
+        return "present"
     parts = str(d).split("-")
     months = {"01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May",
               "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct",
@@ -242,132 +268,115 @@ def daterange_html(a, b):
 def highlight_html(s):
     if ": " in s:
         lead, rest = s.split(": ", 1)
-        return f"<strong>{esc(lead)}:</strong> {esc(rest)}"
-    return esc(s)
+        if "](" not in lead:
+            return f"<strong>{esc(lead)}:</strong> {inline_html(rest)}"
+    return inline_html(s)
 
 
-def logo_html(path):
+def logo_html(path, name=""):
     if not path:
         return ""
-    return f'<img class="logo" src="{esc(path)}" alt="">'
+    return f'<img class="logo" src="{esc(path)}" alt="{esc(name)}">'
 
 
-def logo_cell(path):
-    """Right-hand logo column for an entry (empty string when there's no logo)."""
-    if not path:
-        return ""
-    return f'<div class="entry-logo"><img class="logo" src="{esc(path)}" alt=""></div>'
+def row(note, text, cls="row"):
+    """One line of the page grid: a margin note on the left, the text on the right."""
+    return (f'<div class="{cls}">\n        <div class="note">{note}</div>\n'
+            f'        <div class="text">{text}</div>\n      </div>')
 
 
 def render_site(resume, fm, tpl):
     import shutil
     b = resume["basics"]
 
-    # Contact line
+    # Contact lines
     contact = []
     if b.get("email"):
         contact.append(f'<a href="mailto:{esc(b["email"])}">{esc(b["email"])}</a>')
-    if b.get("phone"):
-        contact.append(f'<span>{esc(b["phone"])}</span>')
-    if fm.get("website"):
-        host = re.sub(r"^https?://", "", fm["website"]).rstrip("/")
-        contact.append(f'<a href="{esc(fm["website"])}">{esc(host)}</a>')
+    for ph in [p.strip() for p in str(b.get("phone", "")).split("·") if p.strip()]:
+        contact.append(esc(ph))
     loc = b.get("location", {})
     locstr = ", ".join(x for x in [loc.get("city", ""), loc.get("countryName", "")] if x)
     if locstr:
-        contact.append(f'<span>{esc(locstr)}</span>')
+        contact.append(esc(locstr))
     if b.get("citizenship"):
-        contact.append(f'<span>{esc(b["citizenship"])}</span>')
-    contact_html = '<span class="sep">·</span>'.join(contact)
+        contact.append(esc(b["citizenship"]))
+    contact_html = "".join(f"<li>{c}</li>" for c in contact)
 
     photo_html = ""
     if b.get("photo"):
-        photo_html = f'<img class="avatar" src="{esc(b["photo"])}" alt="{esc(b["name"])}">'
+        photo_html = f'<img src="{esc(b["photo"])}" alt="Portrait of {esc(b["name"])}">'
+
+    role_html = "<br>".join(esc(p.strip()) for p in str(b.get("label", "")).split("·"))
 
     # Experience
     exp = []
     for j in resume["work"]:
-        note = f' <span class="note">({esc(j["note"])})</span>' if j.get("note") else ""
-        summary = f'<p class="summary">{esc(j["summary"])}</p>' if j.get("summary") else ""
+        kind = f'<br>{esc(j["note"])}' if j.get("note") else ""
+        note = (f'<span class="years">{daterange_html(j.get("startDate",""), j.get("endDate",""))}'
+                f'{kind}</span>{logo_html(j.get("logo",""), j["name"])}')
+        summary = f'<p class="sum">{inline_html(j["summary"])}</p>' if j.get("summary") else ""
         bullets = ""
         if j.get("highlights"):
             items = "".join(f"<li>{highlight_html(h)}</li>" for h in j["highlights"])
-            bullets = f"<ul>{items}</ul>"
-        cls = "entry" if j.get("logo") else "entry no-logo"
-        exp.append(f'''<article class="{cls}">
-        <div class="entry-body">
-          <div class="entry-titles">
-            <h3>{esc(j["position"])}{note}</h3>
-            <div class="org">{esc(j["name"])}</div>
-          </div>
-          {summary}{bullets}
-        </div>
-        <div class="entry-aside">
-          <span class="dates">{daterange_html(j.get("startDate",""), j.get("endDate",""))}</span>
-          {logo_cell(j.get("logo",""))}
-        </div>
-      </article>''')
+            bullets = f'<ul class="dots">{items}</ul>'
+        exp.append(row(note, f'<h3>{esc(j["position"])}</h3><p class="where">{esc(j["name"])}</p>'
+                             f'{summary}{bullets}', "row entry"))
+
+    # Projects
+    proj = []
+    for p in resume.get("projects", []):
+        dates = daterange_html(p["startDate"], p["endDate"]) if p.get("dated") else ""
+        note = "<br>".join(x for x in [esc(p.get("entity", "")),
+                                       f'<span class="years">{dates}</span>' if dates else ""] if x)
+        summary = f'<p class="sum">{inline_html(p["summary"])}</p>' if p.get("summary") else ""
+        bullets = ""
+        if p.get("highlights"):
+            items = "".join(f"<li>{highlight_html(h)}</li>" for h in p["highlights"])
+            bullets = f'<ul class="dots">{items}</ul>'
+        proj.append(row(note, f'<h3>{esc(p["name"])}</h3>{summary}{bullets}', "row entry"))
 
     # Education
     edu = []
     for e in resume["education"]:
         area = f', {esc(e["area"])}' if e.get("area") else ""
-        note = f'<div class="edunote">{esc(e["note"])}</div>' if e.get("note") else ""
-        cls = "entry" if e.get("logo") else "entry no-logo"
-        edu.append(f'''<article class="{cls}">
-        <div class="entry-body">
-          <div class="entry-titles">
-            <h3>{esc(e["studyType"])}<span class="area">{area}</span></h3>
-            <div class="org">{esc(e["institution"])}</div>
-            {note}
-          </div>
-        </div>
-        <div class="entry-aside">
-          <span class="dates">{daterange_html(e.get("startDate",""), e.get("endDate",""))}</span>
-          {logo_cell(e.get("logo",""))}
-        </div>
-      </article>''')
+        thesis = f'<p class="thesis">{esc(e["note"])}</p>' if e.get("note") else ""
+        note = (f'<span class="years">{daterange_html(e.get("startDate",""), e.get("endDate",""))}</span>'
+                f'{logo_html(e.get("logo",""), e["institution"])}')
+        edu.append(row(note, f'<h3>{esc(e["studyType"])}{area}</h3>'
+                             f'<p class="where">{esc(e["institution"])}</p>{thesis}', "row entry"))
 
     # Skills
     skills = []
     for s in resume["skills"]:
         kw = ", ".join(esc(k) for k in s.get("keywords", []))
-        skills.append(f'<div class="skill-row"><div class="skill-name">{esc(s["name"])}</div>'
-                      f'<div class="skill-kw">{kw}</div></div>')
+        skills.append(row(esc(s["name"]), f"<p>{kw}</p>"))
 
-    langs = '<span class="sep">·</span>'.join(
-        f'{esc(l["language"])} <span class="muted">({esc(l["fluency"])})</span>'
-        for l in resume["languages"])
+    langs = ", ".join(f'{esc(l["language"])} ({esc(l["fluency"]).lower()})'
+                      for l in resume["languages"])
 
     pubs = ""
     scholar = [p for p in b.get("profiles", []) if p.get("network") == "Google Scholar"]
     if scholar:
-        pubs = (f'Full and up-to-date list of publications available on '
+        pubs = (f'The full, current list is on '
                 f'<a href="{esc(scholar[0]["url"])}">Google Scholar</a>.')
 
     pdf_name = "CV_" + re.sub(r"\s+", "_", b["name"].strip()) + ".pdf"
 
-    footer = []
-    if b.get("email"):
-        footer.append(f'<a href="mailto:{esc(b["email"])}">{esc(b["email"])}</a>')
-    if fm.get("website"):
-        footer.append(f'<a href="{esc(fm["website"])}">{esc(re.sub(r"^https?://","",fm["website"]).rstrip("/"))}</a>')
-    if scholar:
-        footer.append(f'<a href="{esc(scholar[0]["url"])}">Google Scholar</a>')
-
     html = (tpl.read_text(encoding="utf-8")
             .replace("{{NAME}}", esc(b["name"]))
-            .replace("{{ROLE}}", esc(b.get("label", "")))
+            .replace("{{ROLE_PLAIN}}", esc(str(b.get("label", "")).replace(" · ", ", ")))
+            .replace("{{ROLE}}", role_html)
             .replace("{{PHOTO}}", photo_html)
             .replace("{{CONTACT}}", contact_html)
             .replace("{{SUMMARY}}", esc(b.get("summary", "")))
-            .replace("{{EXPERIENCE}}", "\n".join(exp))
-            .replace("{{EDUCATION}}", "\n".join(edu))
-            .replace("{{SKILLS}}", "\n".join(skills))
+            .replace("{{EXPERIENCE}}", "\n      ".join(exp))
+            .replace("{{PROJECTS}}", "\n      ".join(proj))
+            .replace("{{EDUCATION}}", "\n      ".join(edu))
+            .replace("{{SKILLS}}", "\n      ".join(skills))
             .replace("{{LANGUAGES}}", langs)
             .replace("{{PUBLICATIONS}}", pubs)
-            .replace("{{PDF_NAME}}", pdf_name)
-            .replace("{{FOOTER}}", '<span class="sep">·</span>'.join(footer)))
+            .replace("{{PDF_NAME}}", pdf_name))
     pathlib.Path("site/index.html").write_text(html, encoding="utf-8")
 
     # Copy images into the site so the web page and PDF share one source.

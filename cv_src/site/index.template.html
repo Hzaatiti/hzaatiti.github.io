@@ -3,199 +3,75 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{NAME}} CV</title>
-<meta name="description" content="Curriculum vitae of {{NAME}}. {{ROLE}}.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --accent:#2c4b8e; --accent-soft:#4a68a8; --red:#9e2b22; --ink:#1c2530; --muted:#5d6b7a;
-    --sheet:#ffffff; --rule:#e2e7ee; --tag:#eef2f7;
-  }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
-  body{
-    margin:0; color:var(--ink);
-    font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-    font-size:15px; line-height:1.55;
-    background:transparent;
-    min-height:100vh;
-  }
-
-  /* animated tech background (matches the rest of the site) */
-  .techbg{position:fixed; inset:0; z-index:-2; overflow:hidden;
-    background:radial-gradient(1200px 700px at 50% -10%,#f4f8ff 0%,#eef3fb 55%,#e7eefb 100%);}
-  .techbg::before{content:""; position:absolute; inset:-2px;
-    background-image:linear-gradient(rgba(37,99,235,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.055) 1px,transparent 1px);
-    background-size:46px 46px;
-    -webkit-mask-image:radial-gradient(circle at 50% 22%,#000,transparent 72%);
-    mask-image:radial-gradient(circle at 50% 22%,#000,transparent 72%);}
-  .blob{position:absolute; border-radius:50%; filter:blur(75px); opacity:.5;}
-  .blob.b1{width:460px;height:460px;background:radial-gradient(circle,#8cc6ff,transparent 68%);top:-130px;left:-90px;}
-  .blob.b2{width:410px;height:410px;background:radial-gradient(circle,#b3bcff,transparent 68%);top:16%;right:-120px;}
-  .blob.b3{width:340px;height:340px;background:radial-gradient(circle,#7ff0ff,transparent 68%);bottom:-150px;left:34%;}
-
-  /* site navigation (glass) */
-  .site-nav{position:sticky; top:0; z-index:60;
-    backdrop-filter:blur(16px) saturate(160%); -webkit-backdrop-filter:blur(16px) saturate(160%);
-    background:rgba(255,255,255,.6); border-bottom:1px solid rgba(255,255,255,.85);}
-  .nav-inner{max-width:1080px; margin:0 auto; display:flex; align-items:center; justify-content:space-between;
-    height:64px; padding:0 clamp(1rem,4vw,2rem);}
-  .brand{display:flex; align-items:center; gap:.6rem; font-family:"Space Grotesk",system-ui,sans-serif;
-    font-weight:600; color:var(--ink); font-size:1.05rem; text-decoration:none;}
-  .brand .mark{display:grid; place-items:center; width:34px; height:34px; border-radius:10px; color:#fff;
-    font-size:.85rem; background:linear-gradient(135deg,#3b7bf4,#6366f1); box-shadow:0 6px 16px rgba(37,99,235,.4);}
-  .nav-right{display:flex; align-items:center; gap:.35rem;}
-  .nav-right a{padding:.5rem .85rem; border-radius:10px; color:var(--muted); font-weight:500; font-size:.94rem; text-decoration:none;}
-  .nav-right a:hover, .nav-right a.active{color:#2563eb; background:rgba(37,99,235,.08);}
-  .nav-right a.dl{display:inline-flex; align-items:center; gap:.4rem; margin-left:.3rem; color:#fff; font-weight:600;
-    background:linear-gradient(180deg,#3b7bf4,#2563eb); box-shadow:0 6px 16px rgba(37,99,235,.3);}
-  .nav-right a.dl:hover{color:#fff; transform:translateY(-1px);}
-  .nav-right a.dl svg{width:15px; height:15px;}
-  .nav-toggle{display:none; background:none; border:0; cursor:pointer; color:var(--ink); padding:.3rem;}
-  .nav-toggle svg{width:26px; height:26px;}
-
-  /* sheet */
-  .sheet{
-    max-width:880px; margin:clamp(1rem,4vw,2.5rem) auto; background:var(--sheet);
-    border-radius:14px; overflow:hidden;
-    box-shadow:0 1px 2px rgba(28,37,48,.06), 0 18px 50px rgba(28,37,48,.12);
-  }
-  .sheet-accent{height:5px; background:linear-gradient(90deg,var(--accent),var(--accent-soft));}
-  .inner{padding:clamp(1.5rem,5vw,3rem);}
-
-  /* header */
-  header.cv{display:flex; align-items:center; gap:1.5rem; justify-content:space-between;}
-  header.cv .name{font-family:"Newsreader",Georgia,serif; font-weight:600; color:#1a1a1a;
-    font-size:clamp(1.8rem,5vw,2.5rem); line-height:1.05; margin:0;}
-  header.cv .role{color:var(--muted); font-size:1rem; margin:.35rem 0 0;}
-  .avatar{width:104px; height:134px; object-fit:cover; border-radius:10px; flex:none;
-    box-shadow:0 2px 10px rgba(28,37,48,.18);}
-  .contact{margin-top:.9rem; font-size:.9rem; color:var(--muted); line-height:1.9;}
-  .contact a{color:var(--red); text-decoration:none;}
-  .contact a:hover{text-decoration:underline;}
-  .contact .sep{color:var(--accent-soft); margin:0 .5rem; opacity:.6;}
-  .lede{margin:1.1rem 0 0; font-family:"Newsreader",Georgia,serif; font-style:italic;
-    font-size:1.05rem; color:#3a4653;}
-
-  /* sections */
-  section{margin-top:2rem;}
-  h2.sec{font-size:.82rem; letter-spacing:.13em; text-transform:uppercase; color:var(--accent);
-    font-weight:600; margin:0 0 .2rem; font-family:"Inter",sans-serif;}
-  .sec-rule{height:2px; background:var(--accent); opacity:.85; border-radius:2px; margin-bottom:1rem;}
-
-  .entry{display:grid; grid-template-columns:1fr 160px; column-gap:1.6rem;
-    align-items:start; margin-bottom:1.6rem;}
-  .entry.no-logo{grid-template-columns:1fr auto;}
-  .entry-body{min-width:0;}
-  .entry-titles h3{margin:0; font-size:1.06rem; color:var(--ink); font-weight:600;}
-  .entry-titles .note{color:var(--muted); font-weight:400; font-size:.85rem;}
-  .entry-titles .area{font-weight:400; color:var(--ink);}
-  .org{color:var(--accent); font-size:.96rem; margin-top:.1rem;}
-  .edunote{font-style:italic; color:var(--red); font-size:.9rem; margin-top:.15rem;}
-  .entry-aside{display:flex; flex-direction:column; align-items:center; gap:.7rem; text-align:center;}
-  .dates{color:var(--muted); font-size:.85rem; white-space:nowrap;}
-  .entry-logo{display:flex; align-items:center; justify-content:center;}
-  .entry-logo .logo{max-width:100%; max-height:82px; width:auto; height:auto; object-fit:contain;}
-  .summary{margin:.5rem 0 .4rem; color:var(--red);}
-  .entry ul{margin:.4rem 0 0; padding-left:1.15rem;}
-  .entry li{margin:.28rem 0;}
-  .entry li strong{color:var(--ink);}
-
-  /* skills */
-  .skill-row{display:grid; grid-template-columns:230px 1fr; gap:.6rem 1rem; padding:.32rem 0;
-    border-bottom:1px solid var(--rule);}
-  .skill-row:last-child{border-bottom:0;}
-  .skill-name{font-weight:600; color:var(--accent);}
-  .skill-kw{color:var(--ink);}
-
-  .langs{font-size:1rem;} .langs .muted{color:var(--muted);} .langs .sep{color:var(--accent-soft); margin:0 .5rem; opacity:.6;}
-  .pubs{color:var(--ink);} .pubs a{color:var(--red);}
-
-  footer{max-width:880px; margin:0 auto; text-align:center; padding:1.5rem 1rem 3rem; font-size:.85rem; color:var(--muted);}
-  footer a{color:var(--red); text-decoration:none;} footer a:hover{text-decoration:underline;}
-  footer .sep{margin:0 .5rem; color:var(--accent-soft); opacity:.6;}
-
-  @media (max-width:640px){
-    .nav-toggle{display:block;}
-    .nav-right{position:absolute; top:64px; left:0; right:0; flex-direction:column; align-items:stretch; gap:.2rem;
-      padding:.7rem 1rem 1rem; background:rgba(255,255,255,.94); backdrop-filter:blur(16px);
-      border-bottom:1px solid rgba(255,255,255,.85); transform:translateY(-8px); opacity:0; pointer-events:none; transition:.2s;}
-    .nav-right.open{transform:none; opacity:1; pointer-events:auto;}
-    .nav-right a.dl{margin-left:0; justify-content:center;}
-    header.cv{flex-direction:column-reverse; align-items:flex-start; gap:1rem;}
-    .avatar{width:82px;height:106px;}
-    .entry, .entry.no-logo{grid-template-columns:1fr; row-gap:.6rem;}
-    .entry-aside{flex-direction:row; align-items:center; justify-content:flex-start; gap:1rem;}
-    .entry-logo{justify-content:flex-start;}
-    .entry-logo .logo{max-height:56px;}
-    .skill-row{grid-template-columns:1fr;}
-  }
-  @media print{.site-nav,.techbg{display:none;} body{background:#fff;} .sheet{box-shadow:none; margin:0; max-width:none;}}
-</style>
+<title>CV, {{NAME}}</title>
+<meta name="description" content="Curriculum vitae of {{NAME}}. {{ROLE_PLAIN}}.">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/libertinus-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/libertinus-serif-display-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-  <div class="techbg"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
-  <header class="site-nav">
-    <div class="nav-inner">
-      <a class="brand" href="../index.html"><span class="mark">HZ</span> {{NAME}}</a>
-      <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
-      <nav class="nav-right">
-        <a href="../index.html">Home</a>
-        <a href="../projects.html">Projects</a>
-        <a href="index.html" class="active">CV</a>
-        <a href="../index.html#contact">Contact</a>
-        <a class="dl" href="./{{PDF_NAME}}" download="{{PDF_NAME}}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg> Download PDF</a>
-      </nav>
+
+<header class="wrap top">
+  <a class="me" href="../index.html">{{NAME}}</a>
+  <nav aria-label="Main">
+    <a href="../index.html">Home</a>
+    <a href="../projects.html">Projects</a>
+    <a href="index.html" aria-current="page">CV</a>
+    <a href="../index.html#contact">Contact</a>
+  </nav>
+</header>
+
+<main class="cv">
+  <section class="wrap title cv-head">
+    <div class="row">
+      <div class="note">{{PHOTO}}</div>
+      <div class="text">
+        <h1>{{NAME}}</h1>
+        <p class="field">{{ROLE}}</p>
+        <ul class="reach">{{CONTACT}}</ul>
+        <p class="summary">{{SUMMARY}}</p>
+        <ul class="links"><li><a class="button" href="./{{PDF_NAME}}" download="{{PDF_NAME}}">Download as PDF</a></li></ul>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main class="sheet">
-    <div class="sheet-accent"></div>
-    <div class="inner">
-      <header class="cv">
-        <div>
-          <h1 class="name">{{NAME}}</h1>
-          <p class="role">{{ROLE}}</p>
-        </div>
-        {{PHOTO}}
-      </header>
-      <div class="contact">{{CONTACT}}</div>
-      <p class="lede">{{SUMMARY}}</p>
+  <section class="wrap part" aria-labelledby="cv-exp">
+    <div class="row head"><div class="note"></div><div class="text"><h2 id="cv-exp">Experience</h2></div></div>
+      {{EXPERIENCE}}
+  </section>
 
-      <section>
-        <h2 class="sec">Experience</h2><div class="sec-rule"></div>
-        {{EXPERIENCE}}
-      </section>
+  <section class="wrap part" aria-labelledby="cv-proj">
+    <div class="row head"><div class="note"></div><div class="text"><h2 id="cv-proj">Projects</h2></div></div>
+      {{PROJECTS}}
+  </section>
 
-      <section>
-        <h2 class="sec">Education</h2><div class="sec-rule"></div>
-        {{EDUCATION}}
-      </section>
+  <section class="wrap part" aria-labelledby="cv-edu">
+    <div class="row head"><div class="note"></div><div class="text"><h2 id="cv-edu">Education</h2></div></div>
+      {{EDUCATION}}
+  </section>
 
-      <section>
-        <h2 class="sec">Skills</h2><div class="sec-rule"></div>
-        {{SKILLS}}
-      </section>
+  <section class="wrap part skills" aria-labelledby="cv-skills">
+    <div class="row head"><div class="note"></div><div class="text"><h2 id="cv-skills">Skills</h2></div></div>
+      {{SKILLS}}
+  </section>
 
-      <section>
-        <h2 class="sec">Languages</h2><div class="sec-rule"></div>
-        <div class="langs">{{LANGUAGES}}</div>
-      </section>
+  <section class="wrap part" aria-labelledby="cv-lang">
+    <div class="row head"><div class="note"></div><div class="text"><h2 id="cv-lang">Languages</h2></div></div>
+    <div class="row"><div class="note"></div><div class="text"><p>{{LANGUAGES}}</p></div></div>
+  </section>
 
-      <section>
-        <h2 class="sec">Publications</h2><div class="sec-rule"></div>
-        <div class="pubs">{{PUBLICATIONS}}</div>
-      </section>
-    </div>
-  </main>
+  <section class="wrap part" aria-labelledby="cv-pubs">
+    <div class="row head"><div class="note"></div><div class="text"><h2 id="cv-pubs">Publications</h2></div></div>
+    <div class="row"><div class="note"></div><div class="text"><p>{{PUBLICATIONS}}</p></div></div>
+  </section>
+</main>
 
-  <footer>{{FOOTER}}</footer>
-  <script>
-    (function(){var t=document.querySelector('.nav-toggle'),l=document.querySelector('.nav-right');
-      if(t&&l){t.addEventListener('click',function(){var o=l.classList.toggle('open');t.setAttribute('aria-expanded',o?'true':'false');});}})();
-  </script>
+<footer class="wrap foot">
+  <span>© <span id="yr">2026</span> {{NAME}}</span>
+  <span>Abu Dhabi</span>
+</footer>
+
+<script src="../assets/js/main.js"></script>
 </body>
 </html>

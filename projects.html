@@ -3,106 +3,142 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Projects · Hadi Zaatiti</title>
-<meta name="description" content="Projects and contributions by Hadi Zaatiti, including Geomstats (geometry and statistics on manifolds) and NeuroWaves (MEG/EEG pipelines at NYU Abu Dhabi).">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Projects, Hadi Zaatiti</title>
+<meta name="description" content="Projects by Hadi Zaatiti: an epilepsy project with Cleveland Clinic Abu Dhabi, the NeuroWaves MEG and EEG pipelines at NYU Abu Dhabi, and the Geomstats Python package.">
+<meta property="og:title" content="Projects, Hadi Zaatiti">
+<meta property="og:description" content="Epilepsy with Cleveland Clinic Abu Dhabi, NeuroWaves at NYU Abu Dhabi, and Geomstats.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zaatiti.fr/projects.html">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/libertinus-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/libertinus-serif-display-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<div class="techbg"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
 
-<header class="nav">
-  <div class="container nav-inner">
-    <a class="brand" href="index.html"><span class="mark">HZ</span> Hadi Zaatiti</a>
-    <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="projects.html" class="active">Projects</a>
-      <a href="cv/">CV</a>
-      <a href="index.html#contact">Contact</a>
-    </nav>
-  </div>
+<header class="wrap top">
+  <a class="me" href="index.html">Hadi Zaatiti</a>
+  <nav aria-label="Main">
+    <a href="index.html">Home</a>
+    <a href="projects.html" aria-current="page">Projects</a>
+    <a href="cv/">CV</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
 </header>
 
 <main>
-<section class="hero" style="padding-bottom:1rem">
-  <div class="container">
-    <span class="eyebrow">Projects</span>
-    <h1 style="font-size:clamp(2.1rem,5vw,3.2rem);margin:.5rem 0 .4rem">Things I build and contribute to</h1>
-    <p class="lead" style="max-width:60ch">A selection of open-source and research work. My through-line is modelling: representing complex systems precisely enough to compute, simulate and reason about them, whether the system is a manifold of data or the human brain. Full history is on my <a href="cv/">CV</a>.</p>
-  </div>
-</section>
-
-<section style="padding-top:1rem">
-  <div class="container">
-
-    <article class="proj glass reveal">
-      <div class="logo-stack">
-        <div class="logo-mini"><img src="assets/img/logos/systemx.png" alt="IRT SystemX"></div>
-        <div class="logo-mini"><img src="assets/img/logos/stanford-inria.png" alt="Stanford University"></div>
-        <div class="logo-mini"><img src="assets/img/logos/extra-inria-geomstats.png" alt="Inria"></div>
+  <section class="wrap title">
+    <div class="row">
+      <div class="note"></div>
+      <div class="text">
+        <h1>Projects</h1>
+        <p class="lead">Three pieces of work I can point to in public: a clinical collaboration on epilepsy, the software behind our brain imaging labs, and an open-source geometry package. The <a href="cv/">CV</a> has everything else.</p>
       </div>
-      <div>
-        <div class="proj-head"><span class="kicker">Open source · Python</span><h3>Geomstats</h3></div>
-        <div class="org">geomstats.ai · core contributor · 1.5k★ on GitHub · with Stanford &amp; Inria</div>
-        <p><b>What it is.</b> Geomstats is a Python package for computations, statistics, machine learning and deep learning on manifolds. It splits into a <em>geometry</em> module (manifolds, Lie groups, fiber bundles, shape spaces and Riemannian metrics) and a <em>learning</em> module (statistics and learning algorithms for data that lives on curved spaces), running on NumPy, Autograd or PyTorch backends.</p>
-        <p class="did"><b>What I did.</b> I joined as one of the early core contributors (3rd contributor to the project) and focused on bringing geometric structure to real data and models:</p>
-        <ul>
-          <li>Implemented and validated data representation on manifolds, mainly graph-structured data.</li>
-          <li>Developed learning methods for complex-system models, including simple, timed and hybrid automata, cast on geometric structures.</li>
-          <li>Contributed to the core geometry/learning APIs and their test coverage across backends.</li>
-        </ul>
-        <div class="proj-links">
-          <a href="https://geomstats.ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/></svg> geomstats.ai</a>
-          <a href="https://github.com/geomstats/geomstats"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg> geomstats/geomstats</a>
-          <a href="https://github.com/Hzaatiti/geomstats">My fork</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="proj glass reveal">
-      <div class="logo"><img src="assets/img/logos/nyuad.png" alt="NYU Abu Dhabi"></div>
-      <div>
-        <div class="proj-head"><span class="kicker">Neuroscience · Pipelines</span><h3>NeuroWaves</h3></div>
-        <div class="org">NYU Abu Dhabi · BioMedical Imaging Core · neurowaves.readthedocs.io</div>
-        <p><b>What it is.</b> NeuroWaves provides the documentation, experiment code and processing pipelines for the magnetoencephalography (MEG) and electroencephalography (EEG) users of the NYUAD BioMedical Imaging Core. It standardises how brain-imaging data is acquired, validated and analysed across the lab.</p>
-        <p class="did"><b>What I did.</b> As Research Scientist I own much of the lab's technical infrastructure and reproducibility:</p>
-        <ul>
-          <li>Build and maintain reproducible MEG/EEG processing pipelines from raw signals to analysis-ready data.</li>
-          <li>Author the lab documentation on Read the Docs, covering acquisition, preprocessing and analysis workflows.</li>
-          <li>Enforce BIDS-compliant datasets with automated validation, and set up continuous testing for the NYUAD pipelines.</li>
-          <li>Design experimental paradigms and keep the MEG, EEG and OPM systems calibrated and research-ready.</li>
-        </ul>
-        <div class="proj-links">
-          <a href="https://neurowaves.readthedocs.io/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/></svg> Documentation</a>
-          <a href="https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg> Repository</a>
-        </div>
-      </div>
-    </article>
-
-    <div class="sec-head reveal" style="margin-top:2.5rem"><span class="eyebrow">More experience</span><h2>Selected earlier work</h2></div>
-    <div class="timeline">
-      <div class="tl glass reveal"><div class="when">2022 to 2024</div><div><h4>System Designer, MBSE &amp; Simulation Specialist</h4><div class="org">Airbus Defence &amp; Space · model manager for the FCAS and EuroDrone programs, and MBSE &amp; simulation tutor at Airbus Academy.</div></div></div>
-      <div class="tl glass reveal"><div class="when">2018 to 2022</div><div><h4>System Architect for Autonomous Vehicles &amp; Data Scientist</h4><div class="org">IRT SystemX · architected autonomous shuttle systems with RATP, SNCF, Renault and others; representation learning on manifolds.</div></div></div>
-      <div class="tl glass reveal"><div class="when">2015 to 2018</div><div><h4>Research Engineer</h4><div class="org">CEA · modelling, simulation and formal verification of hybrid dynamical systems with SMT/SAT solvers and a C++ verification toolchain.</div></div></div>
-      <div class="tl glass reveal"><div class="when">2018 to 2022</div><div><h4>System Modelling &amp; Simulation Teacher</h4><div class="org">CentraleSupélec · taught modelling, requirements engineering and simulation to final-year engineering students.</div></div></div>
     </div>
+  </section>
 
-    <div style="text-align:center;margin-top:2.5rem">
-      <a class="btn btn-primary" href="cv/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg> See the full CV</a>
+  <section class="wrap part" id="epilepsy" aria-labelledby="h-epilepsy">
+    <div class="row">
+      <div class="note">
+        <div class="logos"><img src="assets/img/logos/nyuad.png" alt="NYU Abu Dhabi" width="402" height="407"></div>
+        <p>NYU Abu Dhabi with Cleveland Clinic Abu Dhabi</p>
+      </div>
+      <div class="text">
+        <h2 id="h-epilepsy">Epilepsy in the brain</h2>
+        <p>A collaboration between the MEG lab at NYU Abu Dhabi and the epilepsy team at Cleveland Clinic Abu Dhabi (CCAD).</p>
+        <p>Magnetoencephalography (MEG) measures the weak magnetic fields produced by electrical activity in the brain, millisecond by millisecond and with nothing touching the patient. In epilepsy that matters because the brief spikes that appear between seizures can be traced back to the patch of cortex producing them, which is the question a clinical team needs answered.</p>
+        <p>NYU Abu Dhabi published a feature on the project in October 2026.</p>
+        <p class="cutting">
+          <a href="https://nyuad.nyu.edu/en/news/latest-news/science-and-technology/2026/october/a-closer-look-at-epilepsy-in-the-brain.html">A Closer Look at Epilepsy in the Brain</a>
+          <span>NYU Abu Dhabi News, October 2026</span>
+        </p>
+      </div>
     </div>
+  </section>
 
-  </div>
-</section>
+  <section class="wrap part" id="neurowaves" aria-labelledby="h-neurowaves">
+    <div class="row">
+      <div class="note">
+        <div class="logos"><img src="assets/img/logos/nyuad.png" alt="NYU Abu Dhabi" width="402" height="407"></div>
+        <p>NYU Abu Dhabi, since 2024</p>
+      </div>
+      <div class="text">
+        <h2 id="h-neurowaves">NeuroWaves</h2>
+        <p>NeuroWaves is the documentation, experiment code and processing pipelines for everyone who uses the MEG and EEG labs at NYU Abu Dhabi. It sets out how brain imaging data is recorded, validated and analysed across the lab, so that results can be reproduced.</p>
+        <p>My part in it:</p>
+        <ul class="dots">
+          <li>Build and maintain the MEG and EEG processing pipelines, from raw signals to analysis-ready data.</li>
+          <li>Write the lab documentation on Read the Docs, covering acquisition, preprocessing and analysis.</li>
+          <li>Keep datasets BIDS-compliant with automated validation, and run continuous tests on the pipelines.</li>
+          <li>Design experimental paradigms and keep the MEG, EEG and OPM systems calibrated and ready for research.</li>
+        </ul>
+        <ul class="links">
+          <li><a href="https://neurowaves.readthedocs.io/">Documentation</a></li>
+          <li><a href="https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation">Repository on GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap part" id="geomstats" aria-labelledby="h-geomstats">
+    <div class="row">
+      <div class="note">
+        <div class="logos">
+          <img src="assets/img/logos/systemx.png" alt="IRT SystemX" width="1436" height="787">
+          <img src="assets/img/logos/stanford-inria.png" alt="Stanford University" width="1200" height="526">
+          <img src="assets/img/logos/extra-inria-geomstats.png" alt="Inria" width="400" height="180">
+        </div>
+        <p>With Stanford and Inria, 2018 to 2022<br>1.5k stars on GitHub</p>
+      </div>
+      <div class="text">
+        <h2 id="h-geomstats">Geomstats</h2>
+        <p>Geomstats is a Python package for computations, statistics and machine learning on manifolds. One half is geometry: manifolds, Lie groups, fibre bundles, shape spaces and Riemannian metrics. The other half is learning algorithms for data that lives on curved spaces. It runs on NumPy, Autograd or PyTorch.</p>
+        <p>I joined as the third contributor while at IRT SystemX, and worked on:</p>
+        <ul class="dots">
+          <li>Representing data on manifolds, mainly graph-structured data.</li>
+          <li>Learning methods for models of complex systems, including simple, timed and hybrid automata.</li>
+          <li>The core geometry and learning APIs, and their tests across backends.</li>
+        </ul>
+        <ul class="links">
+          <li><a href="https://geomstats.ai">geomstats.ai</a></li>
+          <li><a href="https://github.com/geomstats/geomstats">Repository on GitHub</a></li>
+          <li><a href="https://github.com/Hzaatiti/geomstats">My fork</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap part brief" aria-labelledby="h-earlier">
+    <div class="row head">
+      <div class="note"></div>
+      <div class="text"><h2 id="h-earlier">Earlier work</h2></div>
+    </div>
+    <div class="row">
+      <div class="note years">2022 to 2024</div>
+      <div class="text"><p><span class="role">Airbus Defence and Space.</span> Model manager for the FCAS and EuroDrone programmes, and MBSE and simulation tutor at Airbus Academy.</p></div>
+    </div>
+    <div class="row">
+      <div class="note years">2018 to 2022</div>
+      <div class="text"><p><span class="role">IRT SystemX.</span> Architecture of autonomous shuttle systems with RATP, SNCF, Renault and others, alongside the work on manifolds above.</p></div>
+    </div>
+    <div class="row">
+      <div class="note years">2018 to 2022</div>
+      <div class="text"><p><span class="role">CentraleSupélec.</span> Taught modelling, requirements engineering and simulation to fourth-year engineering students.</p></div>
+    </div>
+    <div class="row">
+      <div class="note years">2015 to 2018</div>
+      <div class="text"><p><span class="role">CEA.</span> Modelling, simulation and formal verification of hybrid dynamical systems with SMT and SAT solvers, implemented as a C++ toolchain.</p></div>
+    </div>
+    <div class="row">
+      <div class="note"></div>
+      <div class="text"><ul class="links"><li><a class="button" href="cv/">Read my CV</a></li></ul></div>
+    </div>
+  </section>
 </main>
 
-<footer>
-  <div class="container foot-inner">
-    <span>© <span id="yr"></span> Hadi Zaatiti · Abu Dhabi, UAE</span>
-    <span class="foot-links"><a href="index.html">Home</a><a href="cv/">CV</a><a href="https://github.com/Hzaatiti">GitHub</a></span>
-  </div>
+<footer class="wrap foot">
+  <span>© <span id="yr">2026</span> Hadi Zaatiti</span>
+  <span>Abu Dhabi</span>
 </footer>
 
 <script src="assets/js/main.js"></script>
